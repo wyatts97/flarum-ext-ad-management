@@ -1,0 +1,306 @@
+// Ad Zones
+.AdZone {
+    text-align: center;
+    padding: 12px 0;
+
+    .container {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    &--header {
+        background: var(--control-bg);
+        padding: 10px 0;
+        border-bottom: 1px solid var(--control-bg);
+        width: 100%;
+        z-index: 999;
+    }
+
+    &--below-header {
+        background: var(--control-bg);
+        padding: 12px 0;
+        border-bottom: 1px solid var(--control-bg);
+    }
+
+    &--between-posts {
+        margin: 16px -20px;
+        padding: 16px 20px;
+        background: var(--control-bg);
+        border-top: 1px solid var(--control-bg);
+        border-bottom: 1px solid var(--control-bg);
+    }
+
+    &--above-footer {
+        background: var(--control-bg);
+        padding: 12px 0;
+        border-top: 1px solid var(--control-bg);
+        margin-top: 20px;
+    }
+
+    &--footer {
+        background: var(--control-bg);
+        padding: 12px 0;
+        border-top: 1px solid var(--control-bg);
+    }
+}
+
+// Ad Banner
+.AdBanner {
+    display: inline-block;
+    position: relative;
+    max-width: 100%;
+
+    &--adsense,
+    &--html {
+        display: block;
+        width: 100%;
+    }
+
+    &-link {
+        display: inline-block;
+        text-decoration: none;
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+
+    &-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 4px;
+    }
+
+    &-html {
+        display: block;
+        width: 100%;
+        min-height: 50px;
+    }
+
+    &-label {
+        font-size: 10px;
+        color: var(--muted-color);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 4px;
+    }
+
+    &--sidebar {
+        margin-bottom: 12px;
+        display: block;
+
+        .AdBanner-image {
+            width: 100%;
+        }
+    }
+}
+
+// Ad Widget (sidebar)
+.AdWidget {
+    margin-top: 12px;
+}
+
+// Ad Zone inline shortcode placeholder
+.AdZonePlaceholder {
+    margin: 12px 0;
+    text-align: center;
+}
+
+// My Ads page
+.MyAdsPage {
+    padding: 20px 0;
+}
+
+.MyAds-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h2 {
+        margin: 0;
+    }
+}
+
+.MyAds-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted-color);
+}
+
+.MyAds-list {
+    display: grid;
+    gap: 16px;
+}
+
+.MyAds-card {
+    background: var(--body-bg);
+    border: 1px solid var(--control-bg);
+    border-radius: 8px;
+    padding: 20px;
+    transition: box-shadow 0.2s;
+
+    &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+
+        h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+    }
+
+    &-preview {
+        margin-bottom: 12px;
+        border-radius: 4px;
+        overflow: hidden;
+        background: var(--control-bg);
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            max-height: 200px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+    }
+
+    &-stats {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 12px;
+    }
+
+    &-actions {
+        padding-top: 12px;
+        border-top: 1px solid var(--control-bg);
+    }
+}
+
+.MyAds-stat {
+    font-size: 13px;
+    color: var(--muted-color);
+
+    i {
+        margin-right: 4px;
+        color: var(--muted-color);
+    }
+}
+
+.MyAds-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+
+    &--active {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    &--inactive {
+        background: var(--control-bg);
+        color: var(--muted-color);
+    }
+
+    &--scheduled {
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+
+    &--expired {
+        background: #fce4ec;
+        color: #c62828;
+    }
+
+    &--pending {
+        background: #fff8e1;
+        color: #f57f17;
+    }
+
+    &--rejected {
+        background: #ffebee;
+        color: #c62828;
+    }
+}
+
+.MyAds-submitForm {
+    background: var(--body-bg);
+    border: 1px solid var(--control-bg);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .Form-group {
+        margin-bottom: 14px;
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+    }
+
+    .helpText {
+        color: var(--muted-color);
+        font-size: 12px;
+        margin: 8px 0;
+    }
+}
+
+.MyAds-formButtons {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--control-bg);
+}
+
+.MyAds-changes-info {
+    font-size: 12px;
+    color: var(--muted-color);
+    margin-left: 8px;
+
+    &--exhausted {
+        color: #c62828;
+    }
+}
+
+// Responsive layout
+@media @phone {
+    .AdBanner {
+        display: block;
+        width: 100%;
+
+        &-link {
+            display: block;
+            width: 100%;
+        }
+
+        &-image {
+            width: 100%;
+        }
+    }
+
+    .AdZone .container {
+        padding: 0 8px;
+    }
+}

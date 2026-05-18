@@ -23,22 +23,6 @@ return [
 
     new Extend\Locales(__DIR__.'/locale'),
 
-    // Admin extender for Flarum 2.x - register custom page and permissions
-    (new Extend\Admin)
-        ->route('/ralkage-ad-management', 'ralkage-ad-management')
-        ->permission('ralkage-ad-management.submitAd', function ($permission) {
-            $permission
-                ->type('reply')
-                ->label('ralkage-ad-management.admin.permissions.submit_ad')
-                ->defaultGroup('member');
-        })
-        ->permission('ralkage-ad-management.noAds', function ($permission) {
-            $permission
-                ->type('view')
-                ->label('ralkage-ad-management.admin.permissions.no_ads')
-                ->defaultGroup(false);
-        }),
-
     // Post shortcode: {myadvertisements[zone_name]} → AdZonePlaceholder div
     (new Extend\Formatter)
         ->configure(function (Configurator $configurator) {

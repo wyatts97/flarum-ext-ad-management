@@ -115,7 +115,7 @@ class AdResource extends AbstractDatabaseResource
 
                     foreach ($ads as $ad) {
                         $resource = $context->resource($context->collection->resource($ad, $context));
-                        $serializer->addPrimary($resource, $ad, ['zone']);
+                        $serializer->addPrimary($resource, $ad, ['zone' => []]);
                     }
 
                     [$primary, $included] = $serializer->serialize();
@@ -136,7 +136,7 @@ class AdResource extends AbstractDatabaseResource
                     return $actor->isAdmin() || (int) $ad->user_id === (int) $actor->id;
                 })
                 ->action(function (Context $context) {
-                    $period = $context->queryParam('period', '30d');
+                    $period = Arr::get($context->request->getQueryParams(), 'period', '30d');
                     if (!in_array($period, ['7d', '30d', '90d'], true)) {
                         $period = '30d';
                     }

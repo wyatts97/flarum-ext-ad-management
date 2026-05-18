@@ -28,13 +28,13 @@ A comprehensive ad management system for [Flarum](https://flarum.org) forums. Su
 ## Links
 
 - [Ralkage](https://ralkage.com)
-- [Github](https://github.com/Ralkage/flarum-ext-ad-management)
-- [Packagist](https://packagist.org/packages/ralkage/flarum-ext-ad-management)
+- [Github](https://github.com/wyatts97/flarum-ext-ad-management)
+- [Packagist](https://packagist.org/packages/wyatts97/flarum-ext-ad-management)
 
 ## Installation
 
 ```bash
-composer require ralkage/flarum-ext-ad-management
+composer require wyatts97/flarum-ext-ad-management
 ```
 
 Then enable it in your Flarum admin panel under **Extensions**.

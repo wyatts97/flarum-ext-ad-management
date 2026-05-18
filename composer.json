@@ -1,5 +1,5 @@
 {
-    "name": "ralkage/flarum-ext-ad-management",
+    "name": "wyatts97/flarum-ext-ad-management",
     "description": "Comprehensive ad management system for Flarum with zones, analytics, and ad owner self-service.",
     "keywords": ["flarum", "extension", "ads", "advertising", "ad management", "adsense"],
     "type": "flarum-extension",

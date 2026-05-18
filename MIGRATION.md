@@ -86,7 +86,7 @@ src/Api/Serializer/AdZoneSerializer.php
    ```
 4. **On your Flarum server**, update the extension via Composer:
    ```bash
-   composer update ralkage/flarum-ext-ad-management
+   composer update wyatts97/flarum-ext-ad-management
    ```
 5. **Run Flarum migrations** (in case any schema changes are needed in the future):
    ```bash

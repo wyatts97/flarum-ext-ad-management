@@ -1,6 +1,6 @@
 {
     "private": true,
-    "name": "@ralkage/flarum-ext-ad-management",
+    "name": "@wyatts97/flarum-ext-ad-management",
     "version": "0.0.0",
     "devDependencies": {
         "flarum-webpack-config": "^3.0.0",

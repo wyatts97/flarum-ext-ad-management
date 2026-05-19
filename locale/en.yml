@@ -121,7 +121,7 @@ wyatts97-ad-management:
       max_clicks_help: "Ad will be deactivated after this many clicks. Leave empty for unlimited."
       max_image_changes: Max Image Changes
       mobile_content_title: Mobile Content
-      mobile_content_help: "Optional alternate content shown on mobile devices (screen width <= 768px). Leave blank to use desktop content."
+      mobile_content_help: "Optional alternate content shown on mobile devices (768px wide or less). Leave blank to use desktop content."
       mobile_content: Mobile HTML/JS Content
       mobile_image_url: Mobile Image URL
       mobile_link_url: Mobile Link URL

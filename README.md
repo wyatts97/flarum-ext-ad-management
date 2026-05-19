@@ -52,7 +52,7 @@ Then enable it in your Flarum admin panel under **Extensions**.
 
 ## Mobile Content
 
-Each ad can have an optional mobile variant that is shown automatically when the visitor's viewport width is **768px or less**:
+Each ad can have an optional mobile variant that is shown automatically when the visitor's viewport width is **768px wide or less**:
 
 - **Image ads** — Set a separate mobile image URL, link URL, alt text, and dimensions.
 - **HTML / AdSense ads** — Provide alternate mobile HTML/JS content.

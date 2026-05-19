@@ -1,6 +1,6 @@
 <?php
 
-namespace Ralkage\AdManagement\Service;
+namespace wyatts97\AdManagement\Service;
 
 use Flarum\Foundation\Paths;
 use Flarum\Foundation\ValidationException;
@@ -19,7 +19,7 @@ class ImageService
 
     public function getAllowedFormats(): array
     {
-        $formats = $this->settings->get('ralkage-ad-management.allowed_image_formats', 'jpg,jpeg,png,webp,gif');
+        $formats = $this->settings->get('wyatts97-ad-management.allowed_image_formats', 'jpg,jpeg,png,webp,gif');
         return array_filter(array_map('trim', explode(',', strtolower($formats))));
     }
 
@@ -59,7 +59,7 @@ class ImageService
         $processable = in_array($extension, ['jpg', 'jpeg', 'png', 'webp']);
 
         $needsResize = $processable && ($maxWidth || $maxHeight);
-        $needsCompress = (bool) $this->settings->get('ralkage-ad-management.enable_compression', false);
+        $needsCompress = (bool) $this->settings->get('wyatts97-ad-management.enable_compression', false);
 
         if (!$needsResize && !$needsCompress) {
             return $imageUrl;
@@ -83,7 +83,7 @@ class ImageService
 
         // Step 2: Compress
         if ($needsCompress && $processable) {
-            $method = $this->settings->get('ralkage-ad-management.compression_method', 'gd');
+            $method = $this->settings->get('wyatts97-ad-management.compression_method', 'gd');
 
             if ($method === 'resmush' && function_exists('curl_init')) {
                 $compressed = $this->compressViaResmush($imageData, $extension);
@@ -275,7 +275,7 @@ class ImageService
      */
     private function compressViaResmush(string $imageData, string $extension): ?string
     {
-        $quality = max(0, min(100, (int) $this->settings->get('ralkage-ad-management.compression_quality', 92)));
+        $quality = max(0, min(100, (int) $this->settings->get('wyatts97-ad-management.compression_quality', 92)));
 
         $tmpFile = tempnam(sys_get_temp_dir(), 'resmush_') . '.' . $extension;
         if (file_put_contents($tmpFile, $imageData) === false) {
@@ -325,7 +325,7 @@ class ImageService
             return null;
         }
 
-        $quality = max(1, min(100, (int) $this->settings->get('ralkage-ad-management.compression_quality', 85)));
+        $quality = max(1, min(100, (int) $this->settings->get('wyatts97-ad-management.compression_quality', 85)));
 
         ob_start();
         switch ($extension) {

@@ -21,7 +21,7 @@ export default class AdBanner extends Component {
 
         const showLabel = app.forum.attribute('adsShowSponsoredLabel') !== false;
         const customLabelText = app.forum.attribute('adsSponsoredLabelText');
-        const labelText = customLabelText || app.translator.trans('ralkage-ad-management.forum.ad.sponsored');
+        const labelText = customLabelText || app.translator.trans('wyatts97-ad-management.forum.ad.sponsored');
 
         return (
             <div className={className} data-ad-id={ad.id}>

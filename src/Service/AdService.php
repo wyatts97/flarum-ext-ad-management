@@ -1,15 +1,15 @@
 <?php
 
-namespace Ralkage\AdManagement\Service;
+namespace wyatts97\AdManagement\Service;
 
 use Carbon\Carbon;
 use Flarum\Foundation\ValidationException;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Support\Arr;
-use Ralkage\AdManagement\Model\Ad;
-use Ralkage\AdManagement\Model\AdClick;
-use Ralkage\AdManagement\Model\AdZone;
+use wyatts97\AdManagement\Model\Ad;
+use wyatts97\AdManagement\Model\AdClick;
+use wyatts97\AdManagement\Model\AdZone;
 
 class AdService
 {
@@ -80,7 +80,7 @@ class AdService
             $ad->max_impressions = Arr::get($data, 'max_impressions');
             $ad->max_clicks = Arr::get($data, 'max_clicks');
             $ad->max_image_changes = Arr::get($data, 'max_image_changes',
-                (int) $this->settings->get('ralkage-ad-management.default_max_image_changes', 5));
+                (int) $this->settings->get('wyatts97-ad-management.default_max_image_changes', 5));
         } else {
             // Non-admin: image-only, pending review, no admin-only fields
             $ad->user_id = $actor ? $actor->id : null;
@@ -88,7 +88,7 @@ class AdService
             $ad->is_active = false;
             $ad->status = 'pending_review';
             $ad->priority = 0;
-            $ad->max_image_changes = (int) $this->settings->get('ralkage-ad-management.default_max_image_changes', 5);
+            $ad->max_image_changes = (int) $this->settings->get('wyatts97-ad-management.default_max_image_changes', 5);
         }
 
         $imageUrl = Arr::get($data, 'image_url');
@@ -211,7 +211,7 @@ class AdService
                 $zone ? $zone->max_height : null
             );
 
-            $requireApproval = (bool) $this->settings->get('ralkage-ad-management.require_image_approval', false);
+            $requireApproval = (bool) $this->settings->get('wyatts97-ad-management.require_image_approval', false);
 
             if (!$isAdmin && $requireApproval) {
                 // Queue for admin review — don't touch image_url yet
@@ -292,7 +292,7 @@ class AdService
 
     public function getBetweenPostsInterval(): int
     {
-        return (int) $this->settings->get('ralkage-ad-management.between_posts_interval', 5);
+        return (int) $this->settings->get('wyatts97-ad-management.between_posts_interval', 5);
     }
 
     private function validateLinkUrl(?string $url): void

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ralkage\AdManagement\Api\Controller;
+namespace wyatts97\AdManagement\Api\Controller;
 
 use Flarum\Http\RequestUtil;
 use Illuminate\Contracts\Cache\Repository as Cache;
@@ -9,8 +9,8 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Ralkage\AdManagement\Model\Ad;
-use Ralkage\AdManagement\Service\AdService;
+use wyatts97\AdManagement\Model\Ad;
+use wyatts97\AdManagement\Service\AdService;
 
 class TrackAdClickController implements RequestHandlerInterface
 {

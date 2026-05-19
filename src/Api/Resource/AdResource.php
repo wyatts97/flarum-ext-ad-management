@@ -1,6 +1,6 @@
 <?php
 
-namespace Ralkage\AdManagement\Api\Resource;
+namespace wyatts97\AdManagement\Api\Resource;
 
 use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
@@ -13,10 +13,10 @@ use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Arr;
-use Ralkage\AdManagement\Model\Ad;
-use Ralkage\AdManagement\Model\AdZone;
-use Ralkage\AdManagement\Service\AdService;
-use Ralkage\AdManagement\Service\ImageService;
+use wyatts97\AdManagement\Model\Ad;
+use wyatts97\AdManagement\Model\AdZone;
+use wyatts97\AdManagement\Service\AdService;
+use wyatts97\AdManagement\Service\ImageService;
 
 use function Tobyz\JsonApiServer\json_api_response;
 
@@ -80,7 +80,7 @@ class AdResource extends AbstractDatabaseResource
                 ->authenticated()
                 ->visible(function (Context $context) {
                     $actor = $context->getActor();
-                    return $actor->isAdmin() || $actor->hasPermission('ralkage-ad-management.submitAd');
+                    return $actor->isAdmin() || $actor->hasPermission('wyatts97-ad-management.submitAd');
                 })
                 ->defaultInclude(['zone', 'owner']),
             Endpoint\Update::make()
@@ -300,7 +300,7 @@ class AdResource extends AbstractDatabaseResource
             $model->is_active = false;
             $model->status = 'pending_review';
             $model->priority = 0;
-            $model->max_image_changes = (int) $this->settings->get('ralkage-ad-management.default_max_image_changes', 5);
+            $model->max_image_changes = (int) $this->settings->get('wyatts97-ad-management.default_max_image_changes', 5);
         } else {
             $model->user_id = $model->user_id ?? $actor->id;
             $model->status = $model->is_active ? 'active' : 'inactive';
@@ -331,7 +331,7 @@ class AdResource extends AbstractDatabaseResource
                     $zone ? $zone->max_height : null
                 );
 
-                if (!$isAdmin && (bool) $this->settings->get('ralkage-ad-management.require_image_approval', false)) {
+                if (!$isAdmin && (bool) $this->settings->get('wyatts97-ad-management.require_image_approval', false)) {
                     // Queue for approval: revert image_url and stash the
                     // processed URL in pending_image_url.
                     $model->image_url = $originalImageUrl;

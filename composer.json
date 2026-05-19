@@ -9,13 +9,13 @@
     },
     "authors": [
         {
-            "name": "Ralkage",
-            "email": "noreply@ralkage.com"
+            "name": "wyatts97",
+            "email": "noreply@wyatts97.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Ralkage\\AdManagement\\": "src/"
+            "wyatts97\\AdManagement\\": "src/"
         }
     },
     "extra": {

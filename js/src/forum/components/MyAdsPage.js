@@ -53,10 +53,10 @@ export default class MyAdsPage extends UserPage {
         return (
             <div className="MyAdsPage">
                 <div className="MyAds-header">
-                    <h2>{app.translator.trans('ralkage-ad-management.forum.page.title')}</h2>
+                    <h2>{app.translator.trans('wyatts97-ad-management.forum.page.title')}</h2>
                     {app.forum.attribute('canSubmitAds') && !this.showSubmitForm && (
                         <Button className="Button Button--primary" icon="fas fa-plus" onclick={() => this.openSubmitForm()}>
-                            {app.translator.trans('ralkage-ad-management.forum.page.submit_ad')}
+                            {app.translator.trans('wyatts97-ad-management.forum.page.submit_ad')}
                         </Button>
                     )}
                 </div>
@@ -65,7 +65,7 @@ export default class MyAdsPage extends UserPage {
 
                 {!this.showSubmitForm && this.ads.length === 0 ? (
                     <div className="MyAds-empty">
-                        <p>{app.translator.trans('ralkage-ad-management.forum.page.empty')}</p>
+                        <p>{app.translator.trans('wyatts97-ad-management.forum.page.empty')}</p>
                     </div>
                 ) : (
                     <div className="MyAds-list">
@@ -94,19 +94,19 @@ export default class MyAdsPage extends UserPage {
 
         return (
             <div className="MyAds-submitForm">
-                <h3>{app.translator.trans('ralkage-ad-management.forum.page.submit_ad')}</h3>
+                <h3>{app.translator.trans('wyatts97-ad-management.forum.page.submit_ad')}</h3>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.forum.ads.name')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.forum.ads.name')}</label>
                     <input className="FormControl" type="text" value={ad.name}
                         oninput={e => { ad.name = e.target.value; }} />
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.forum.ads.zone')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.forum.ads.zone')}</label>
                     <select className="FormControl" value={ad.zone_id}
                         onchange={e => { ad.zone_id = e.target.value; }}>
-                        <option value="">{app.translator.trans('ralkage-ad-management.forum.ads.select_zone')}</option>
+                        <option value="">{app.translator.trans('wyatts97-ad-management.forum.ads.select_zone')}</option>
                         {this.zones.map(zone => (
                             <option value={zone.id}>{zone.attributes.label}</option>
                         ))}
@@ -114,33 +114,33 @@ export default class MyAdsPage extends UserPage {
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.forum.ads.image_url')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.forum.ads.image_url')}</label>
                     <input className="FormControl" type="text" value={ad.image_url}
                         oninput={e => { ad.image_url = e.target.value; }} />
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.forum.ads.link_url')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.forum.ads.link_url')}</label>
                     <input className="FormControl" type="text" value={ad.link_url}
                         oninput={e => { ad.link_url = e.target.value; }} />
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.forum.ads.alt_text')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.forum.ads.alt_text')}</label>
                     <input className="FormControl" type="text" value={ad.alt_text}
                         oninput={e => { ad.alt_text = e.target.value; }} />
                 </div>
 
                 <p className="helpText">
-                    {app.translator.trans('ralkage-ad-management.forum.page.submit_pending_notice')}
+                    {app.translator.trans('wyatts97-ad-management.forum.page.submit_pending_notice')}
                 </p>
 
                 <div className="MyAds-formButtons">
                     <Button className="Button" onclick={() => { this.showSubmitForm = false; }}>
-                        {app.translator.trans('ralkage-ad-management.forum.page.cancel')}
+                        {app.translator.trans('wyatts97-ad-management.forum.page.cancel')}
                     </Button>
                     <Button className="Button Button--primary" onclick={() => this.submitAd()} loading={this.submitting}>
-                        {app.translator.trans('ralkage-ad-management.forum.page.submit_ad')}
+                        {app.translator.trans('wyatts97-ad-management.forum.page.submit_ad')}
                     </Button>
                 </div>
             </div>
@@ -214,7 +214,7 @@ export default class MyAdsPage extends UserPage {
                 <div className="MyAds-card-header">
                     <h3>{attrs.name}</h3>
                     <span className={'MyAds-status MyAds-status--' + statusClass}>
-                        {app.translator.trans('ralkage-ad-management.forum.page.status.' + statusLabel)}
+                        {app.translator.trans('wyatts97-ad-management.forum.page.status.' + statusLabel)}
                     </span>
                 </div>
 
@@ -227,15 +227,15 @@ export default class MyAdsPage extends UserPage {
                 <div className="MyAds-card-stats">
                     <div className="MyAds-stat">
                         <i className="fas fa-eye"></i>
-                        {app.translator.trans('ralkage-ad-management.forum.page.impressions', { count: attrs.impressionsCount.toLocaleString() })}
+                        {app.translator.trans('wyatts97-ad-management.forum.page.impressions', { count: attrs.impressionsCount.toLocaleString() })}
                     </div>
                     <div className="MyAds-stat">
                         <i className="fas fa-mouse-pointer"></i>
-                        {app.translator.trans('ralkage-ad-management.forum.page.clicks', { count: attrs.clicksCount.toLocaleString() })}
+                        {app.translator.trans('wyatts97-ad-management.forum.page.clicks', { count: attrs.clicksCount.toLocaleString() })}
                     </div>
                     <div className="MyAds-stat">
                         <i className="fas fa-chart-line"></i>
-                        {app.translator.trans('ralkage-ad-management.forum.page.ctr', { value: attrs.ctr })}
+                        {app.translator.trans('wyatts97-ad-management.forum.page.ctr', { value: attrs.ctr })}
                     </div>
                 </div>
 
@@ -244,11 +244,11 @@ export default class MyAdsPage extends UserPage {
                         {attrs.maxImageChanges === null || attrs.imageChangesCount < attrs.maxImageChanges ? (
                             <div>
                                 <Button className="Button Button--primary Button--small" icon="fas fa-image" onclick={() => this.changeImage(ad)}>
-                                    {app.translator.trans('ralkage-ad-management.forum.page.edit_image')}
+                                    {app.translator.trans('wyatts97-ad-management.forum.page.edit_image')}
                                 </Button>
                                 {attrs.maxImageChanges !== null && (
                                     <span className="MyAds-changes-info">
-                                        {app.translator.trans('ralkage-ad-management.forum.page.image_changes_remaining', {
+                                        {app.translator.trans('wyatts97-ad-management.forum.page.image_changes_remaining', {
                                             count: attrs.maxImageChanges - attrs.imageChangesCount,
                                         })}
                                     </span>
@@ -256,7 +256,7 @@ export default class MyAdsPage extends UserPage {
                             </div>
                         ) : (
                             <span className="MyAds-changes-info MyAds-changes-info--exhausted">
-                                {app.translator.trans('ralkage-ad-management.forum.page.no_changes_remaining')}
+                                {app.translator.trans('wyatts97-ad-management.forum.page.no_changes_remaining')}
                             </span>
                         )}
                     </div>

@@ -1,13 +1,13 @@
 <?php
 
-namespace Ralkage\AdManagement\Command;
+namespace wyatts97\AdManagement\Command;
 
 use Carbon\Carbon;
 use Flarum\Console\AbstractCommand;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Mail\Message;
-use Ralkage\AdManagement\Model\Ad;
+use wyatts97\AdManagement\Model\Ad;
 
 class SendAdNotificationsCommand extends AbstractCommand
 {
@@ -34,7 +34,7 @@ class SendAdNotificationsCommand extends AbstractCommand
 
         $sent += $this->sendExpirationReminders();
 
-        if ($this->settings->get('ralkage-ad-management.send_performance_reports', false)) {
+        if ($this->settings->get('wyatts97-ad-management.send_performance_reports', false)) {
             $sent += $this->sendPerformanceReports();
         }
 
@@ -43,7 +43,7 @@ class SendAdNotificationsCommand extends AbstractCommand
 
     protected function sendExpirationReminders(): int
     {
-        $days = (int) $this->settings->get('ralkage-ad-management.expiration_reminder_days', 7);
+        $days = (int) $this->settings->get('wyatts97-ad-management.expiration_reminder_days', 7);
 
         if ($days <= 0) {
             return 0;
@@ -199,7 +199,7 @@ class SendAdNotificationsCommand extends AbstractCommand
      */
     protected function getTemplate(string $key, string $default): string
     {
-        $value = $this->settings->get('ralkage-ad-management.' . $key . '_template', '');
+        $value = $this->settings->get('wyatts97-ad-management.' . $key . '_template', '');
         return $value !== '' ? $value : $default;
     }
 

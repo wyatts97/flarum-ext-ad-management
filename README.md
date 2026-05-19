@@ -1,6 +1,6 @@
 # Ad Management — Flarum Extension
 
-> **Note:** This is a fork of [ralkage/flarum-ext-ad-management](https://github.com/Ralkage/flarum-ext-ad-management) updated for Flarum 2.0 compatibility.
+> **Note:** This is a fork of [wyatts97/flarum-ext-ad-management](https://github.com/wyatts97/flarum-ext-ad-management) updated for Flarum 2.0 compatibility.
 
 A comprehensive ad management system for [Flarum](https://flarum.org) forums. Supports image banners, HTML/JS ads, and Google AdSense with zones, analytics, an approval workflow, and a user self-service portal.
 
@@ -27,7 +27,7 @@ A comprehensive ad management system for [Flarum](https://flarum.org) forums. Su
 
 ## Links
 
-- [Ralkage](https://ralkage.com)
+- [wyatts97](https://wyatts97.com)
 - [Github](https://github.com/wyatts97/flarum-ext-ad-management)
 - [Packagist](https://packagist.org/packages/wyatts97/flarum-ext-ad-management)
 

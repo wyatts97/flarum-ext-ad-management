@@ -1,10 +1,10 @@
 <?php
 
-namespace Ralkage\AdManagement\Command;
+namespace wyatts97\AdManagement\Command;
 
 use Carbon\Carbon;
 use Flarum\Console\AbstractCommand;
-use Ralkage\AdManagement\Model\AdClick;
+use wyatts97\AdManagement\Model\AdClick;
 use Symfony\Component\Console\Input\InputArgument;
 
 class PurgeAdClicksCommand extends AbstractCommand

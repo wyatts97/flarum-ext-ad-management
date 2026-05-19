@@ -201,7 +201,7 @@ function renderZoneAds(position, className) {
     );
 }
 
-app.initializers.add('ralkage-ad-management', () => {
+app.initializers.add('wyatts97-ad-management', () => {
     app.routes['user.ads'] = { path: '/u/:username/ads', component: MyAdsPage };
 
     // Inject header ad via DOM since there's no good Mithril hook above the header.
@@ -242,7 +242,7 @@ app.initializers.add('ralkage-ad-management', () => {
         if (app.session.user && app.session.user === this.user) {
             items.add('ads',
                 <LinkButton href={app.route('user.ads', { username: this.user.slug() })} icon="fas fa-ad">
-                    {app.translator.trans('ralkage-ad-management.forum.nav.my_ads')}
+                    {app.translator.trans('wyatts97-ad-management.forum.nav.my_ads')}
                 </LinkButton>,
                 10
             );

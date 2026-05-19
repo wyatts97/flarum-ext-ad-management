@@ -1,6 +1,6 @@
 <?php
 
-namespace Ralkage\AdManagement\Model;
+namespace wyatts97\AdManagement\Model;
 
 use Carbon\Carbon;
 use Flarum\Database\AbstractModel;

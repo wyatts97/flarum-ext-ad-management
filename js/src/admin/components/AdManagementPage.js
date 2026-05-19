@@ -52,7 +52,7 @@ export default class AdManagementPage extends ExtensionPage {
                                 className={'Button ' + (this.activeTab === tab ? 'Button--primary' : '')}
                                 onclick={() => { this.activeTab = tab; this.editingAd = null; this.editingZone = null; }}
                             >
-                                {app.translator.trans('ralkage-ad-management.admin.tabs.' + tab)}
+                                {app.translator.trans('wyatts97-ad-management.admin.tabs.' + tab)}
                             </Button>
                         ))}
                     </div>
@@ -83,15 +83,15 @@ export default class AdManagementPage extends ExtensionPage {
             <div className="AdManagement-section">
                 <div className="AdManagement-header">
                     <h3>
-                        {app.translator.trans('ralkage-ad-management.admin.ads.title')}
+                        {app.translator.trans('wyatts97-ad-management.admin.ads.title')}
                         {pendingCount > 0 && (
                             <span className="AdBadge AdBadge--pending" style="margin-left: 8px;">
-                                {app.translator.trans('ralkage-ad-management.admin.ads.pending_badge', { count: pendingCount })}
+                                {app.translator.trans('wyatts97-ad-management.admin.ads.pending_badge', { count: pendingCount })}
                             </span>
                         )}
                     </h3>
                     <Button className="Button Button--primary" icon="fas fa-plus" onclick={() => this.editAd({})}>
-                        {app.translator.trans('ralkage-ad-management.admin.ads.create')}
+                        {app.translator.trans('wyatts97-ad-management.admin.ads.create')}
                     </Button>
                 </div>
 
@@ -101,7 +101,7 @@ export default class AdManagementPage extends ExtensionPage {
                             className={'Button Button--text ' + (this.adsFilter === filter ? 'active' : '')}
                             onclick={() => { this.adsFilter = filter; }}
                         >
-                            {app.translator.trans('ralkage-ad-management.admin.ads.filter.' + filter)}
+                            {app.translator.trans('wyatts97-ad-management.admin.ads.filter.' + filter)}
                         </Button>
                     ))}
                 </div>
@@ -110,20 +110,20 @@ export default class AdManagementPage extends ExtensionPage {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.ads.name')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.ads.type')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.ads.zone')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.ads.status')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.ads.owner')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.ads.stats.impressions')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.ads.stats.clicks')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.ads.stats.ctr')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.ads.name')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.ads.type')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.ads.zone')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.ads.status')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.ads.owner')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.ads.stats.impressions')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.ads.stats.clicks')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.ads.stats.ctr')}</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredAds.length === 0 && (
-                            <tr><td colspan="10" className="AdManagement-empty">{app.translator.trans('ralkage-ad-management.admin.ads.empty')}</td></tr>
+                            <tr><td colspan="10" className="AdManagement-empty">{app.translator.trans('wyatts97-ad-management.admin.ads.empty')}</td></tr>
                         )}
                         {filteredAds.map(ad => {
                             const attrs = ad.attributes;
@@ -141,8 +141,8 @@ export default class AdManagementPage extends ExtensionPage {
                                     <td>
                                         {attrs.name}
                                         {attrs.pendingImageUrl && (
-                                            <span className="AdBadge AdBadge--pending" style="margin-left: 6px;" title={app.translator.trans('ralkage-ad-management.admin.ads.pending_image_badge')}>
-                                                {app.translator.trans('ralkage-ad-management.admin.ads.pending_image_badge')}
+                                            <span className="AdBadge AdBadge--pending" style="margin-left: 6px;" title={app.translator.trans('wyatts97-ad-management.admin.ads.pending_image_badge')}>
+                                                {app.translator.trans('wyatts97-ad-management.admin.ads.pending_image_badge')}
                                             </span>
                                         )}
                                     </td>
@@ -150,7 +150,7 @@ export default class AdManagementPage extends ExtensionPage {
                                     <td>{zone ? zone.attributes.label : '—'}</td>
                                     <td>
                                         <span className={'AdBadge AdBadge--status AdBadge--status-' + status}>
-                                            {app.translator.trans('ralkage-ad-management.admin.ads.statuses.' + status)}
+                                            {app.translator.trans('wyatts97-ad-management.admin.ads.statuses.' + status)}
                                         </span>
                                     </td>
                                     <td>{ownerUser ? (ownerUser.attributes.displayName || ownerUser.attributes.username) : ownerRel ? '#' + ownerRel.id : '—'}</td>
@@ -159,16 +159,16 @@ export default class AdManagementPage extends ExtensionPage {
                                     <td>{attrs.ctr}%</td>
                                     <td className="AdManagement-actions">
                                         {status === 'pending_review' && (
-                                            <Button className="Button Button--icon Button--success" icon="fas fa-check" title={app.translator.trans('ralkage-ad-management.admin.ads.approve')} onclick={() => this.approveAd(ad)} />
+                                            <Button className="Button Button--icon Button--success" icon="fas fa-check" title={app.translator.trans('wyatts97-ad-management.admin.ads.approve')} onclick={() => this.approveAd(ad)} />
                                         )}
                                         {status === 'pending_review' && (
-                                            <Button className="Button Button--icon Button--danger" icon="fas fa-times" title={app.translator.trans('ralkage-ad-management.admin.ads.reject')} onclick={() => this.rejectAd(ad)} />
+                                            <Button className="Button Button--icon Button--danger" icon="fas fa-times" title={app.translator.trans('wyatts97-ad-management.admin.ads.reject')} onclick={() => this.rejectAd(ad)} />
                                         )}
                                         {attrs.pendingImageUrl && (
-                                            <Button className="Button Button--icon Button--success" icon="fas fa-image" title={app.translator.trans('ralkage-ad-management.admin.ads.approve_image')} onclick={() => this.approveAdImage(ad)} />
+                                            <Button className="Button Button--icon Button--success" icon="fas fa-image" title={app.translator.trans('wyatts97-ad-management.admin.ads.approve_image')} onclick={() => this.approveAdImage(ad)} />
                                         )}
                                         {attrs.pendingImageUrl && (
-                                            <Button className="Button Button--icon Button--danger" icon="fas fa-ban" title={app.translator.trans('ralkage-ad-management.admin.ads.reject_image')} onclick={() => this.rejectAdImage(ad)} />
+                                            <Button className="Button Button--icon Button--danger" icon="fas fa-ban" title={app.translator.trans('wyatts97-ad-management.admin.ads.reject_image')} onclick={() => this.rejectAdImage(ad)} />
                                         )}
                                         <Button className="Button Button--icon" icon="fas fa-edit" onclick={() => this.editAd(ad)} />
                                         <Button className="Button Button--icon Button--danger" icon="fas fa-trash" onclick={() => this.deleteAd(ad)} />
@@ -245,26 +245,26 @@ export default class AdManagementPage extends ExtensionPage {
 
         return (
             <div className="AdManagement-form">
-                <h3>{app.translator.trans('ralkage-ad-management.admin.ads.' + (isNew ? 'create' : 'edit'))}</h3>
+                <h3>{app.translator.trans('wyatts97-ad-management.admin.ads.' + (isNew ? 'create' : 'edit'))}</h3>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.ads.name')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.ads.name')}</label>
                     <input className="FormControl" type="text" value={ad.name} oninput={e => { ad.name = e.target.value; }} />
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.ads.type')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.ads.type')}</label>
                     <select className="FormControl" value={ad.type} onchange={e => { ad.type = e.target.value; }}>
-                        <option value="image">{app.translator.trans('ralkage-ad-management.admin.ads.types.image')}</option>
-                        <option value="html">{app.translator.trans('ralkage-ad-management.admin.ads.types.html')}</option>
-                        <option value="adsense">{app.translator.trans('ralkage-ad-management.admin.ads.types.adsense')}</option>
+                        <option value="image">{app.translator.trans('wyatts97-ad-management.admin.ads.types.image')}</option>
+                        <option value="html">{app.translator.trans('wyatts97-ad-management.admin.ads.types.html')}</option>
+                        <option value="adsense">{app.translator.trans('wyatts97-ad-management.admin.ads.types.adsense')}</option>
                     </select>
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.ads.zone')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.ads.zone')}</label>
                     <select className="FormControl" value={ad.zone_id} onchange={e => { ad.zone_id = e.target.value; }}>
-                        <option value="">{app.translator.trans('ralkage-ad-management.admin.ads.select_zone')}</option>
+                        <option value="">{app.translator.trans('wyatts97-ad-management.admin.ads.select_zone')}</option>
                         {this.zones.map(zone => (
                             <option value={zone.id}>{zone.attributes.label} ({zone.attributes.position})</option>
                         ))}
@@ -273,8 +273,8 @@ export default class AdManagementPage extends ExtensionPage {
 
                 {(ad.type === 'html' || ad.type === 'adsense') && (
                     <div className="Form-group">
-                        <label>{app.translator.trans('ralkage-ad-management.admin.ads.content')}</label>
-                        <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.ads.content_help')}</p>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.ads.content')}</label>
+                        <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.ads.content_help')}</p>
                         <textarea className="FormControl" rows="6" value={ad.content} oninput={e => { ad.content = e.target.value; }} />
                     </div>
                 )}
@@ -282,24 +282,24 @@ export default class AdManagementPage extends ExtensionPage {
                 {ad.type === 'image' && (
                     <div>
                         <div className="Form-group">
-                            <label>{app.translator.trans('ralkage-ad-management.admin.ads.image_url')}</label>
+                            <label>{app.translator.trans('wyatts97-ad-management.admin.ads.image_url')}</label>
                             <input className="FormControl" type="text" value={ad.image_url} oninput={e => { ad.image_url = e.target.value; }} />
                         </div>
                         <div className="Form-group">
-                            <label>{app.translator.trans('ralkage-ad-management.admin.ads.link_url')}</label>
+                            <label>{app.translator.trans('wyatts97-ad-management.admin.ads.link_url')}</label>
                             <input className="FormControl" type="text" value={ad.link_url} oninput={e => { ad.link_url = e.target.value; }} />
                         </div>
                         <div className="Form-group">
-                            <label>{app.translator.trans('ralkage-ad-management.admin.ads.alt_text')}</label>
+                            <label>{app.translator.trans('wyatts97-ad-management.admin.ads.alt_text')}</label>
                             <input className="FormControl" type="text" value={ad.alt_text} oninput={e => { ad.alt_text = e.target.value; }} />
                         </div>
                         <div className="Form-group Form-group--inline">
                             <div>
-                                <label>{app.translator.trans('ralkage-ad-management.admin.ads.width')}</label>
+                                <label>{app.translator.trans('wyatts97-ad-management.admin.ads.width')}</label>
                                 <input className="FormControl" type="number" value={ad.width} oninput={e => { ad.width = e.target.value; }} />
                             </div>
                             <div>
-                                <label>{app.translator.trans('ralkage-ad-management.admin.ads.height')}</label>
+                                <label>{app.translator.trans('wyatts97-ad-management.admin.ads.height')}</label>
                                 <input className="FormControl" type="number" value={ad.height} oninput={e => { ad.height = e.target.value; }} />
                             </div>
                         </div>
@@ -308,57 +308,57 @@ export default class AdManagementPage extends ExtensionPage {
 
                 <div className="Form-group">
                     <Switch state={ad.is_active} onchange={value => { ad.is_active = value; }}>
-                        {app.translator.trans('ralkage-ad-management.admin.ads.is_active')}
+                        {app.translator.trans('wyatts97-ad-management.admin.ads.is_active')}
                     </Switch>
                 </div>
 
                 <div className="Form-group Form-group--inline">
                     <div>
-                        <label>{app.translator.trans('ralkage-ad-management.admin.ads.start_date')}</label>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.ads.start_date')}</label>
                         <input className="FormControl" type="datetime-local" value={ad.start_date} oninput={e => { ad.start_date = e.target.value; }} />
                     </div>
                     <div>
-                        <label>{app.translator.trans('ralkage-ad-management.admin.ads.end_date')}</label>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.ads.end_date')}</label>
                         <input className="FormControl" type="datetime-local" value={ad.end_date} oninput={e => { ad.end_date = e.target.value; }} />
                     </div>
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.ads.priority')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.ads.priority_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.ads.priority')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.ads.priority_help')}</p>
                     <input className="FormControl" type="number" value={ad.priority} oninput={e => { ad.priority = parseInt(e.target.value) || 0; }} />
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.ads.group_visibility')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.ads.group_visibility_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.ads.group_visibility')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.ads.group_visibility_help')}</p>
                     <input className="FormControl" type="text" value={ad.group_visibility} oninput={e => { ad.group_visibility = e.target.value; }} />
                 </div>
 
                 <div className="Form-group Form-group--inline">
                     <div>
-                        <label>{app.translator.trans('ralkage-ad-management.admin.ads.max_impressions')}</label>
-                        <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.ads.max_impressions_help')}</p>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.ads.max_impressions')}</label>
+                        <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.ads.max_impressions_help')}</p>
                         <input className="FormControl" type="number" value={ad.max_impressions} oninput={e => { ad.max_impressions = e.target.value; }} />
                     </div>
                     <div>
-                        <label>{app.translator.trans('ralkage-ad-management.admin.ads.max_clicks')}</label>
-                        <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.ads.max_clicks_help')}</p>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.ads.max_clicks')}</label>
+                        <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.ads.max_clicks_help')}</p>
                         <input className="FormControl" type="number" value={ad.max_clicks} oninput={e => { ad.max_clicks = e.target.value; }} />
                     </div>
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.ads.max_image_changes')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.ads.max_image_changes')}</label>
                     <input className="FormControl" type="number" value={ad.max_image_changes} oninput={e => { ad.max_image_changes = e.target.value; }} />
                 </div>
 
                 <div className="Form-group AdManagement-formButtons">
                     <Button className="Button" onclick={() => { this.editingAd = null; }}>
-                        {app.translator.trans('ralkage-ad-management.admin.cancel')}
+                        {app.translator.trans('wyatts97-ad-management.admin.cancel')}
                     </Button>
                     <Button className="Button Button--primary" onclick={() => this.saveAd()} loading={this.saving}>
-                        {app.translator.trans('ralkage-ad-management.admin.save')}
+                        {app.translator.trans('wyatts97-ad-management.admin.save')}
                     </Button>
                 </div>
             </div>
@@ -406,7 +406,7 @@ export default class AdManagementPage extends ExtensionPage {
     }
 
     deleteAd(ad) {
-        if (!confirm(app.translator.trans('ralkage-ad-management.admin.ads.confirm_delete'))) return;
+        if (!confirm(app.translator.trans('wyatts97-ad-management.admin.ads.confirm_delete'))) return;
 
         app.request({
             method: 'DELETE',
@@ -422,21 +422,21 @@ export default class AdManagementPage extends ExtensionPage {
         return (
             <div className="AdManagement-section">
                 <div className="AdManagement-header">
-                    <h3>{app.translator.trans('ralkage-ad-management.admin.zones.title')}</h3>
+                    <h3>{app.translator.trans('wyatts97-ad-management.admin.zones.title')}</h3>
                     <Button className="Button Button--primary" icon="fas fa-plus" onclick={() => this.editZone({})}>
-                        {app.translator.trans('ralkage-ad-management.admin.zones.create')}
+                        {app.translator.trans('wyatts97-ad-management.admin.zones.create')}
                     </Button>
                 </div>
                 <table className="AdManagement-table">
                     <thead>
                         <tr>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.zones.label')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.zones.name')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.zones.position')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.zones.is_active')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.zones.ads_count')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.zones.dimensions')}</th>
-                            <th>{app.translator.trans('ralkage-ad-management.admin.zones.display_mode')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.zones.label')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.zones.name')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.zones.position')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.zones.is_active')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.zones.ads_count')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.zones.dimensions')}</th>
+                            <th>{app.translator.trans('wyatts97-ad-management.admin.zones.display_mode')}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -447,14 +447,14 @@ export default class AdManagementPage extends ExtensionPage {
                                 <tr key={zone.id}>
                                     <td>
                                         {attrs.label}
-                                        {attrs.isDefault && <span className="AdBadge AdBadge--default"> {app.translator.trans('ralkage-ad-management.admin.zones.default_badge')}</span>}
+                                        {attrs.isDefault && <span className="AdBadge AdBadge--default"> {app.translator.trans('wyatts97-ad-management.admin.zones.default_badge')}</span>}
                                     </td>
                                     <td><code>{attrs.name}</code></td>
-                                    <td>{app.translator.trans('ralkage-ad-management.admin.zones.positions.' + attrs.position) || attrs.position}</td>
+                                    <td>{app.translator.trans('wyatts97-ad-management.admin.zones.positions.' + attrs.position) || attrs.position}</td>
                                     <td>{attrs.isActive ? '✓' : '✗'}</td>
                                     <td>{attrs.adsCount}</td>
                                     <td>{attrs.maxWidth && attrs.maxHeight ? attrs.maxWidth + '×' + attrs.maxHeight : '—'}</td>
-                                    <td>{app.translator.trans('ralkage-ad-management.admin.zones.display_modes.' + (attrs.displayMode || 'rotate'))}</td>
+                                    <td>{app.translator.trans('wyatts97-ad-management.admin.zones.display_modes.' + (attrs.displayMode || 'rotate'))}</td>
                                     <td className="AdManagement-actions">
                                         <Button className="Button Button--icon" icon="fas fa-edit" onclick={() => this.editZone(zone)} />
                                         {!attrs.isDefault && (
@@ -467,8 +467,8 @@ export default class AdManagementPage extends ExtensionPage {
                     </tbody>
                 </table>
                 <div className="AdManagement-zoneInfo">
-                    <p><strong>{app.translator.trans('ralkage-ad-management.admin.zones.shortcode_title')}</strong> <code>{'{myadvertisements[zone_name]}'}</code></p>
-                    <p>{app.translator.trans('ralkage-ad-management.admin.zones.shortcode_help')}</p>
+                    <p><strong>{app.translator.trans('wyatts97-ad-management.admin.zones.shortcode_title')}</strong> <code>{'{myadvertisements[zone_name]}'}</code></p>
+                    <p>{app.translator.trans('wyatts97-ad-management.admin.zones.shortcode_help')}</p>
                 </div>
             </div>
         );
@@ -497,32 +497,32 @@ export default class AdManagementPage extends ExtensionPage {
 
         return (
             <div className="AdManagement-form">
-                <h3>{app.translator.trans('ralkage-ad-management.admin.zones.' + (isNew ? 'create' : 'edit'))}</h3>
+                <h3>{app.translator.trans('wyatts97-ad-management.admin.zones.' + (isNew ? 'create' : 'edit'))}</h3>
 
                 {!zone.is_default && (
                     <div className="Form-group">
-                        <label>{app.translator.trans('ralkage-ad-management.admin.zones.name')}</label>
-                        <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.zones.name_help')}</p>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.zones.name')}</label>
+                        <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.zones.name_help')}</p>
                         <input className="FormControl" type="text" value={zone.name} oninput={e => { zone.name = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '_'); }} />
                     </div>
                 )}
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.zones.label')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.zones.label')}</label>
                     <input className="FormControl" type="text" value={zone.label} oninput={e => { zone.label = e.target.value; }} />
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.zones.description')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.zones.description')}</label>
                     <textarea className="FormControl" rows="3" value={zone.description} oninput={e => { zone.description = e.target.value; }} />
                 </div>
 
                 {!zone.is_default && (
                     <div className="Form-group">
-                        <label>{app.translator.trans('ralkage-ad-management.admin.zones.position')}</label>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.zones.position')}</label>
                         <select className="FormControl" value={zone.position} onchange={e => { zone.position = e.target.value; }}>
                             {['header', 'below_header', 'between_posts', 'sidebar', 'above_footer', 'footer', 'custom'].map(pos => (
-                                <option value={pos}>{app.translator.trans('ralkage-ad-management.admin.zones.positions.' + pos)}</option>
+                                <option value={pos}>{app.translator.trans('wyatts97-ad-management.admin.zones.positions.' + pos)}</option>
                             ))}
                         </select>
                     </div>
@@ -530,38 +530,38 @@ export default class AdManagementPage extends ExtensionPage {
 
                 <div className="Form-group">
                     <Switch state={zone.is_active} onchange={value => { zone.is_active = value; }}>
-                        {app.translator.trans('ralkage-ad-management.admin.zones.is_active')}
+                        {app.translator.trans('wyatts97-ad-management.admin.zones.is_active')}
                     </Switch>
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.zones.sort_order')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.zones.sort_order')}</label>
                     <input className="FormControl" type="number" value={zone.sort_order} oninput={e => { zone.sort_order = parseInt(e.target.value) || 0; }} />
                 </div>
 
                 <div className="Form-group Form-group--inline">
                     <div>
-                        <label>{app.translator.trans('ralkage-ad-management.admin.zones.max_width')}</label>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.zones.max_width')}</label>
                         <input className="FormControl" type="number" value={zone.max_width} oninput={e => { zone.max_width = e.target.value; }} />
                     </div>
                     <div>
-                        <label>{app.translator.trans('ralkage-ad-management.admin.zones.max_height')}</label>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.zones.max_height')}</label>
                         <input className="FormControl" type="number" value={zone.max_height} oninput={e => { zone.max_height = e.target.value; }} />
                     </div>
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.zones.display_mode')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.zones.display_mode_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.zones.display_mode')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.zones.display_mode_help')}</p>
                     <select className="FormControl" value={zone.display_mode} onchange={e => { zone.display_mode = e.target.value; }}>
-                        <option value="rotate">{app.translator.trans('ralkage-ad-management.admin.zones.display_modes.rotate')}</option>
-                        <option value="stack">{app.translator.trans('ralkage-ad-management.admin.zones.display_modes.stack')}</option>
+                        <option value="rotate">{app.translator.trans('wyatts97-ad-management.admin.zones.display_modes.rotate')}</option>
+                        <option value="stack">{app.translator.trans('wyatts97-ad-management.admin.zones.display_modes.stack')}</option>
                     </select>
                 </div>
 
                 <div className="Form-group AdManagement-formButtons">
-                    <Button className="Button" onclick={() => { this.editingZone = null; }}>{app.translator.trans('ralkage-ad-management.admin.cancel')}</Button>
-                    <Button className="Button Button--primary" onclick={() => this.saveZone()} loading={this.savingZone}>{app.translator.trans('ralkage-ad-management.admin.save')}</Button>
+                    <Button className="Button" onclick={() => { this.editingZone = null; }}>{app.translator.trans('wyatts97-ad-management.admin.cancel')}</Button>
+                    <Button className="Button Button--primary" onclick={() => this.saveZone()} loading={this.savingZone}>{app.translator.trans('wyatts97-ad-management.admin.save')}</Button>
                 </div>
             </div>
         );
@@ -600,7 +600,7 @@ export default class AdManagementPage extends ExtensionPage {
     }
 
     deleteZone(zone) {
-        if (!confirm(app.translator.trans('ralkage-ad-management.admin.zones.confirm_delete'))) return;
+        if (!confirm(app.translator.trans('wyatts97-ad-management.admin.zones.confirm_delete'))) return;
 
         app.request({
             method: 'DELETE',
@@ -611,105 +611,105 @@ export default class AdManagementPage extends ExtensionPage {
     settingsTab() {
         return (
             <div className="AdManagement-section">
-                <h3>{app.translator.trans('ralkage-ad-management.admin.tabs.settings')}</h3>
+                <h3>{app.translator.trans('wyatts97-ad-management.admin.tabs.settings')}</h3>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.between_posts_interval')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.between_posts_interval_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.between_posts_interval')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.between_posts_interval_help')}</p>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.between_posts_interval',
+                        setting: 'wyatts97-ad-management.between_posts_interval',
                         type: 'number',
                     })}
                 </div>
 
                 <div className="Form-group">
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.show_sponsored_label',
+                        setting: 'wyatts97-ad-management.show_sponsored_label',
                         type: 'boolean',
-                        label: app.translator.trans('ralkage-ad-management.admin.settings.show_sponsored_label'),
-                        help: app.translator.trans('ralkage-ad-management.admin.settings.show_sponsored_label_help'),
+                        label: app.translator.trans('wyatts97-ad-management.admin.settings.show_sponsored_label'),
+                        help: app.translator.trans('wyatts97-ad-management.admin.settings.show_sponsored_label_help'),
                     })}
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.sponsored_label_text')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.sponsored_label_text_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.sponsored_label_text')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.sponsored_label_text_help')}</p>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.sponsored_label_text',
+                        setting: 'wyatts97-ad-management.sponsored_label_text',
                         type: 'text',
                     })}
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.default_max_image_changes')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.default_max_image_changes_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.default_max_image_changes')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.default_max_image_changes_help')}</p>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.default_max_image_changes',
+                        setting: 'wyatts97-ad-management.default_max_image_changes',
                         type: 'number',
                     })}
                 </div>
 
                 <div className="Form-group">
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.track_impressions',
+                        setting: 'wyatts97-ad-management.track_impressions',
                         type: 'boolean',
-                        label: app.translator.trans('ralkage-ad-management.admin.settings.track_impressions'),
-                        help: app.translator.trans('ralkage-ad-management.admin.settings.track_impressions_help'),
+                        label: app.translator.trans('wyatts97-ad-management.admin.settings.track_impressions'),
+                        help: app.translator.trans('wyatts97-ad-management.admin.settings.track_impressions_help'),
                     })}
                 </div>
 
                 <div className="Form-group">
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.track_clicks',
+                        setting: 'wyatts97-ad-management.track_clicks',
                         type: 'boolean',
-                        label: app.translator.trans('ralkage-ad-management.admin.settings.track_clicks'),
-                        help: app.translator.trans('ralkage-ad-management.admin.settings.track_clicks_help'),
+                        label: app.translator.trans('wyatts97-ad-management.admin.settings.track_clicks'),
+                        help: app.translator.trans('wyatts97-ad-management.admin.settings.track_clicks_help'),
                     })}
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.adsense_publisher_id')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.adsense_publisher_id_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.adsense_publisher_id')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.adsense_publisher_id_help')}</p>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.adsense_publisher_id',
+                        setting: 'wyatts97-ad-management.adsense_publisher_id',
                         type: 'text',
                     })}
                 </div>
 
-                <h4 style="margin-top: 30px; padding-top: 16px; border-top: 1px solid #e8ecf0;">{app.translator.trans('ralkage-ad-management.admin.settings.image_settings_title')}</h4>
+                <h4 style="margin-top: 30px; padding-top: 16px; border-top: 1px solid #e8ecf0;">{app.translator.trans('wyatts97-ad-management.admin.settings.image_settings_title')}</h4>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.allowed_image_formats')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.allowed_image_formats_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.allowed_image_formats')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.allowed_image_formats_help')}</p>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.allowed_image_formats',
+                        setting: 'wyatts97-ad-management.allowed_image_formats',
                         type: 'text',
                     })}
                 </div>
 
                 <div className="Form-group">
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.enable_compression',
+                        setting: 'wyatts97-ad-management.enable_compression',
                         type: 'boolean',
-                        label: app.translator.trans('ralkage-ad-management.admin.settings.enable_compression'),
-                        help: app.translator.trans('ralkage-ad-management.admin.settings.enable_compression_help'),
+                        label: app.translator.trans('wyatts97-ad-management.admin.settings.enable_compression'),
+                        help: app.translator.trans('wyatts97-ad-management.admin.settings.enable_compression_help'),
                     })}
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.compression_quality')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.compression_quality_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.compression_quality')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.compression_quality_help')}</p>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.compression_quality',
+                        setting: 'wyatts97-ad-management.compression_quality',
                         type: 'number',
                     })}
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.compression_method')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.compression_method_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.compression_method')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.compression_method_help')}</p>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.compression_method',
+                        setting: 'wyatts97-ad-management.compression_method',
                         type: 'select',
                         options: { gd: 'PHP GD (built-in)', resmush: 'reSmush.it API (lossless)' },
                     })}
@@ -717,71 +717,71 @@ export default class AdManagementPage extends ExtensionPage {
 
                 <div className="Form-group">
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.require_image_approval',
+                        setting: 'wyatts97-ad-management.require_image_approval',
                         type: 'boolean',
-                        label: app.translator.trans('ralkage-ad-management.admin.settings.require_image_approval'),
-                        help: app.translator.trans('ralkage-ad-management.admin.settings.require_image_approval_help'),
+                        label: app.translator.trans('wyatts97-ad-management.admin.settings.require_image_approval'),
+                        help: app.translator.trans('wyatts97-ad-management.admin.settings.require_image_approval_help'),
                     })}
                 </div>
 
-                <h4 style="margin-top: 30px; padding-top: 16px; border-top: 1px solid #e8ecf0;">{app.translator.trans('ralkage-ad-management.admin.settings.notifications_title')}</h4>
+                <h4 style="margin-top: 30px; padding-top: 16px; border-top: 1px solid #e8ecf0;">{app.translator.trans('wyatts97-ad-management.admin.settings.notifications_title')}</h4>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.expiration_reminder_days')}</label>
-                    <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.expiration_reminder_days_help')}</p>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.expiration_reminder_days')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.expiration_reminder_days_help')}</p>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.expiration_reminder_days',
+                        setting: 'wyatts97-ad-management.expiration_reminder_days',
                         type: 'number',
                     })}
                 </div>
 
                 <div className="Form-group">
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.send_performance_reports',
+                        setting: 'wyatts97-ad-management.send_performance_reports',
                         type: 'boolean',
-                        label: app.translator.trans('ralkage-ad-management.admin.settings.send_performance_reports'),
-                        help: app.translator.trans('ralkage-ad-management.admin.settings.send_performance_reports_help'),
+                        label: app.translator.trans('wyatts97-ad-management.admin.settings.send_performance_reports'),
+                        help: app.translator.trans('wyatts97-ad-management.admin.settings.send_performance_reports_help'),
                     })}
                 </div>
 
                 <div className="Form-group AdManagement-zoneInfo">
-                    <p>{app.translator.trans('ralkage-ad-management.admin.settings.notifications_info')}</p>
+                    <p>{app.translator.trans('wyatts97-ad-management.admin.settings.notifications_info')}</p>
                 </div>
 
-                <h4 style="margin-top: 24px;">{app.translator.trans('ralkage-ad-management.admin.settings.expiration_templates_title')}</h4>
-                <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.templates_placeholders_expiry')}</p>
+                <h4 style="margin-top: 24px;">{app.translator.trans('wyatts97-ad-management.admin.settings.expiration_templates_title')}</h4>
+                <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.templates_placeholders_expiry')}</p>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.expiration_subject_template')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.expiration_subject_template')}</label>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.expiration_subject_template',
+                        setting: 'wyatts97-ad-management.expiration_subject_template',
                         type: 'text',
                     })}
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.expiration_body_template')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.expiration_body_template')}</label>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.expiration_body_template',
+                        setting: 'wyatts97-ad-management.expiration_body_template',
                         type: 'textarea',
                     })}
                 </div>
 
-                <h4 style="margin-top: 24px;">{app.translator.trans('ralkage-ad-management.admin.settings.performance_templates_title')}</h4>
-                <p className="helpText">{app.translator.trans('ralkage-ad-management.admin.settings.templates_placeholders_performance')}</p>
+                <h4 style="margin-top: 24px;">{app.translator.trans('wyatts97-ad-management.admin.settings.performance_templates_title')}</h4>
+                <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.settings.templates_placeholders_performance')}</p>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.performance_subject_template')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.performance_subject_template')}</label>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.performance_subject_template',
+                        setting: 'wyatts97-ad-management.performance_subject_template',
                         type: 'text',
                     })}
                 </div>
 
                 <div className="Form-group">
-                    <label>{app.translator.trans('ralkage-ad-management.admin.settings.performance_body_template')}</label>
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.settings.performance_body_template')}</label>
                     {this.buildSettingComponent({
-                        setting: 'ralkage-ad-management.performance_body_template',
+                        setting: 'wyatts97-ad-management.performance_body_template',
                         type: 'textarea',
                     })}
                 </div>
@@ -794,24 +794,24 @@ export default class AdManagementPage extends ExtensionPage {
     analyticsTab() {
         return (
             <div className="AdManagement-section">
-                <h3>{app.translator.trans('ralkage-ad-management.admin.analytics.title')}</h3>
+                <h3>{app.translator.trans('wyatts97-ad-management.admin.analytics.title')}</h3>
 
                 <div className="Form-group Form-group--inline">
                     <div>
-                        <label>{app.translator.trans('ralkage-ad-management.admin.analytics.select_ad')}</label>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.analytics.select_ad')}</label>
                         <select className="FormControl" value={this.analyticsAdId || ''} onchange={e => { this.analyticsAdId = e.target.value; this.loadAnalytics(); }}>
-                            <option value="">{app.translator.trans('ralkage-ad-management.admin.analytics.select_ad')}</option>
+                            <option value="">{app.translator.trans('wyatts97-ad-management.admin.analytics.select_ad')}</option>
                             {this.ads.map(ad => (
                                 <option value={ad.id}>{ad.attributes.name}</option>
                             ))}
                         </select>
                     </div>
                     <div>
-                        <label>{app.translator.trans('ralkage-ad-management.admin.analytics.period')}</label>
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.analytics.period')}</label>
                         <select className="FormControl" value={this.analyticsPeriod} onchange={e => { this.analyticsPeriod = e.target.value; this.loadAnalytics(); }}>
-                            <option value="7d">{app.translator.trans('ralkage-ad-management.admin.analytics.periods.7d')}</option>
-                            <option value="30d">{app.translator.trans('ralkage-ad-management.admin.analytics.periods.30d')}</option>
-                            <option value="90d">{app.translator.trans('ralkage-ad-management.admin.analytics.periods.90d')}</option>
+                            <option value="7d">{app.translator.trans('wyatts97-ad-management.admin.analytics.periods.7d')}</option>
+                            <option value="30d">{app.translator.trans('wyatts97-ad-management.admin.analytics.periods.30d')}</option>
+                            <option value="90d">{app.translator.trans('wyatts97-ad-management.admin.analytics.periods.90d')}</option>
                         </select>
                     </div>
                 </div>
@@ -821,28 +821,28 @@ export default class AdManagementPage extends ExtensionPage {
                         <div className="AdAnalytics-cards">
                             <div className="AdAnalytics-card">
                                 <div className="AdAnalytics-card-value">{this.analyticsData.total_impressions.toLocaleString()}</div>
-                                <div className="AdAnalytics-card-label">{app.translator.trans('ralkage-ad-management.admin.analytics.total_impressions')}</div>
+                                <div className="AdAnalytics-card-label">{app.translator.trans('wyatts97-ad-management.admin.analytics.total_impressions')}</div>
                             </div>
                             <div className="AdAnalytics-card">
                                 <div className="AdAnalytics-card-value">{this.analyticsData.total_clicks.toLocaleString()}</div>
-                                <div className="AdAnalytics-card-label">{app.translator.trans('ralkage-ad-management.admin.analytics.total_clicks')}</div>
+                                <div className="AdAnalytics-card-label">{app.translator.trans('wyatts97-ad-management.admin.analytics.total_clicks')}</div>
                             </div>
                             <div className="AdAnalytics-card">
                                 <div className="AdAnalytics-card-value">{(this.analyticsData.period_clicks || 0).toLocaleString()}</div>
-                                <div className="AdAnalytics-card-label">{app.translator.trans('ralkage-ad-management.admin.analytics.period_clicks')}</div>
+                                <div className="AdAnalytics-card-label">{app.translator.trans('wyatts97-ad-management.admin.analytics.period_clicks')}</div>
                             </div>
                             <div className="AdAnalytics-card">
                                 <div className="AdAnalytics-card-value">{this.analyticsData.ctr}%</div>
-                                <div className="AdAnalytics-card-label">{app.translator.trans('ralkage-ad-management.admin.analytics.ctr')}</div>
+                                <div className="AdAnalytics-card-label">{app.translator.trans('wyatts97-ad-management.admin.analytics.ctr')}</div>
                             </div>
                         </div>
 
                         {Object.keys(this.analyticsData.clicks_by_day).length > 0 ? (
                             <div className="AdAnalytics-chart">
-                                <h4>{app.translator.trans('ralkage-ad-management.admin.analytics.clicks_by_day')}</h4>
+                                <h4>{app.translator.trans('wyatts97-ad-management.admin.analytics.clicks_by_day')}</h4>
                                 <table className="AdManagement-table">
                                     <thead>
-                                        <tr><th>{app.translator.trans('ralkage-ad-management.admin.analytics.date')}</th><th>{app.translator.trans('ralkage-ad-management.admin.analytics.clicks_header')}</th></tr>
+                                        <tr><th>{app.translator.trans('wyatts97-ad-management.admin.analytics.date')}</th><th>{app.translator.trans('wyatts97-ad-management.admin.analytics.clicks_header')}</th></tr>
                                     </thead>
                                     <tbody>
                                         {Object.entries(this.analyticsData.clicks_by_day).map(([date, count]) => (
@@ -852,7 +852,7 @@ export default class AdManagementPage extends ExtensionPage {
                                 </table>
                             </div>
                         ) : (
-                            <p className="AdManagement-empty">{app.translator.trans('ralkage-ad-management.admin.analytics.no_data')}</p>
+                            <p className="AdManagement-empty">{app.translator.trans('wyatts97-ad-management.admin.analytics.no_data')}</p>
                         )}
                     </div>
                 )}

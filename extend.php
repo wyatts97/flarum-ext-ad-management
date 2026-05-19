@@ -1,14 +1,14 @@
 <?php
 
-namespace Ralkage\AdManagement;
+namespace wyatts97\AdManagement;
 
 use Flarum\Api\Resource\ForumResource;
 use Flarum\Api\Schema;
 use Flarum\Extend;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Ralkage\AdManagement\Api\Controller;
-use Ralkage\AdManagement\Api\Resource\AdResource;
-use Ralkage\AdManagement\Api\Resource\AdZoneResource;
+use wyatts97\AdManagement\Api\Controller;
+use wyatts97\AdManagement\Api\Resource\AdResource;
+use wyatts97\AdManagement\Api\Resource\AdZoneResource;
 use s9e\TextFormatter\Configurator;
 
 return [
@@ -41,36 +41,36 @@ return [
         }),
 
     (new Extend\Settings())
-        ->default('ralkage-ad-management.between_posts_interval', 5)
-        ->default('ralkage-ad-management.show_sponsored_label', true)
-        ->default('ralkage-ad-management.sponsored_label_text', '')
-        ->default('ralkage-ad-management.default_max_image_changes', 5)
-        ->default('ralkage-ad-management.track_impressions', true)
-        ->default('ralkage-ad-management.track_clicks', true)
-        ->default('ralkage-ad-management.hide_ads_for_groups', '') // deprecated, kept for backwards compat
-        ->default('ralkage-ad-management.adsense_publisher_id', '')
-        ->default('ralkage-ad-management.allowed_image_formats', 'jpg,jpeg,png,webp,gif')
-        ->default('ralkage-ad-management.enable_compression', false)
-        ->default('ralkage-ad-management.compression_quality', 85)
-        ->default('ralkage-ad-management.compression_method', 'gd')
-        ->default('ralkage-ad-management.require_image_approval', false)
-        ->default('ralkage-ad-management.expiration_reminder_days', 7)
-        ->default('ralkage-ad-management.send_performance_reports', false)
-        ->default('ralkage-ad-management.expiration_subject_template', '')
-        ->default('ralkage-ad-management.expiration_body_template', '')
-        ->default('ralkage-ad-management.performance_subject_template', '')
-        ->default('ralkage-ad-management.performance_body_template', '')
-        ->serializeToForum('adsBetweenPostsInterval', 'ralkage-ad-management.between_posts_interval', 'intval')
-        ->serializeToForum('adsTrackImpressions', 'ralkage-ad-management.track_impressions', function ($value) {
+        ->default('wyatts97-ad-management.between_posts_interval', 5)
+        ->default('wyatts97-ad-management.show_sponsored_label', true)
+        ->default('wyatts97-ad-management.sponsored_label_text', '')
+        ->default('wyatts97-ad-management.default_max_image_changes', 5)
+        ->default('wyatts97-ad-management.track_impressions', true)
+        ->default('wyatts97-ad-management.track_clicks', true)
+        ->default('wyatts97-ad-management.hide_ads_for_groups', '') // deprecated, kept for backwards compat
+        ->default('wyatts97-ad-management.adsense_publisher_id', '')
+        ->default('wyatts97-ad-management.allowed_image_formats', 'jpg,jpeg,png,webp,gif')
+        ->default('wyatts97-ad-management.enable_compression', false)
+        ->default('wyatts97-ad-management.compression_quality', 85)
+        ->default('wyatts97-ad-management.compression_method', 'gd')
+        ->default('wyatts97-ad-management.require_image_approval', false)
+        ->default('wyatts97-ad-management.expiration_reminder_days', 7)
+        ->default('wyatts97-ad-management.send_performance_reports', false)
+        ->default('wyatts97-ad-management.expiration_subject_template', '')
+        ->default('wyatts97-ad-management.expiration_body_template', '')
+        ->default('wyatts97-ad-management.performance_subject_template', '')
+        ->default('wyatts97-ad-management.performance_body_template', '')
+        ->serializeToForum('adsBetweenPostsInterval', 'wyatts97-ad-management.between_posts_interval', 'intval')
+        ->serializeToForum('adsTrackImpressions', 'wyatts97-ad-management.track_impressions', function ($value) {
             return (bool) $value;
         })
-        ->serializeToForum('adsTrackClicks', 'ralkage-ad-management.track_clicks', function ($value) {
+        ->serializeToForum('adsTrackClicks', 'wyatts97-ad-management.track_clicks', function ($value) {
             return (bool) $value;
         })
-        ->serializeToForum('adsShowSponsoredLabel', 'ralkage-ad-management.show_sponsored_label', function ($value) {
+        ->serializeToForum('adsShowSponsoredLabel', 'wyatts97-ad-management.show_sponsored_label', function ($value) {
             return (bool) $value;
         })
-        ->serializeToForum('adsSponsoredLabelText', 'ralkage-ad-management.sponsored_label_text'),
+        ->serializeToForum('adsSponsoredLabelText', 'wyatts97-ad-management.sponsored_label_text'),
 
     // API resources for ad management (Flarum 2.0+)
     new Extend\ApiResource(AdResource::class),
@@ -90,12 +90,12 @@ return [
                 Schema\Boolean::make('canSubmitAds')
                     ->get(function ($forum, $context) {
                         $actor = $context->getActor();
-                        return ! $actor->isGuest() && ($actor->isAdmin() || $actor->hasPermission('ralkage-ad-management.submitAd'));
+                        return ! $actor->isGuest() && ($actor->isAdmin() || $actor->hasPermission('wyatts97-ad-management.submitAd'));
                     }),
                 Schema\Boolean::make('adsHidden')
                     ->get(function ($forum, $context) {
                         $actor = $context->getActor();
-                        return ! $actor->isGuest() && $actor->hasPermission('ralkage-ad-management.noAds');
+                        return ! $actor->isGuest() && $actor->hasPermission('wyatts97-ad-management.noAds');
                     }),
             ];
         }),

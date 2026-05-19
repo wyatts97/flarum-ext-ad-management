@@ -8,8 +8,8 @@ export default [
         .permission(
             () => ({
                 icon: 'fas fa-ad',
-                label: app.translator.trans('ralkage-ad-management.admin.permissions.submit_ad'),
-                permission: 'ralkage-ad-management.submitAd',
+                label: app.translator.trans('wyatts97-ad-management.admin.permissions.submit_ad'),
+                permission: 'wyatts97-ad-management.submitAd',
             }),
             'reply',
             90
@@ -17,8 +17,8 @@ export default [
         .permission(
             () => ({
                 icon: 'fas fa-eye-slash',
-                label: app.translator.trans('ralkage-ad-management.admin.permissions.no_ads'),
-                permission: 'ralkage-ad-management.noAds',
+                label: app.translator.trans('wyatts97-ad-management.admin.permissions.no_ads'),
+                permission: 'wyatts97-ad-management.noAds',
             }),
             'view',
             89

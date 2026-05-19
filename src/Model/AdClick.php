@@ -1,6 +1,6 @@
 <?php
 
-namespace Ralkage\AdManagement\Model;
+namespace wyatts97\AdManagement\Model;
 
 use Flarum\Database\AbstractModel;
 use Flarum\User\User;

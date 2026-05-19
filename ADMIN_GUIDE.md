@@ -376,7 +376,7 @@ When an ad or its image is deleted/replaced, the locally stored file is also del
 | Permission | Who needs it | What it allows |
 |---|---|---|
 | **Admin** | Forum administrators | Full access to all extension features |
-| **Submit Advertisements** (`ralkage-ad-management.submitAd`) | Grant to member groups | Submit image ads for review via the "My Ads" page |
+| **Submit Advertisements** (`wyatts97-ad-management.submitAd`) | Grant to member groups | Submit image ads for review via the "My Ads" page |
 
 ### What Users Can Do
 

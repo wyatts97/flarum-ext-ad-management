@@ -117,28 +117,47 @@ class AdResource extends AbstractDatabaseResource
                     return $ads;
                 })
                 ->response(function (Context $context, array $ads) {
-                    $serializer = new Serializer($context);
+                    $primary = [];
+                    $included = [];
+                    $seenZoneIds = [];
 
                     foreach ($ads as $ad) {
-                        $serializer->addPrimary($this, $ad);
-                    }
+                        $item = [
+                            'type' => 'advertisements',
+                            'id' => (string) $ad->id,
+                            'attributes' => [
+                                'name' => $ad->name,
+                                'type' => $ad->type,
+                                'content' => $ad->content,
+                                'imageUrl' => $ad->image_url,
+                                'linkUrl' => $ad->link_url,
+                                'altText' => $ad->alt_text,
+                                'width' => $ad->width,
+                                'height' => $ad->height,
+                                'isActive' => (bool) $ad->is_active,
+                                'status' => $ad->status ?? ($ad->is_active ? 'active' : 'inactive'),
+                                'startDate' => $ad->start_date ? $ad->start_date->format(\DateTime::RFC3339) : null,
+                                'endDate' => $ad->end_date ? $ad->end_date->format(\DateTime::RFC3339) : null,
+                                'priority' => $ad->priority,
+                                'impressionsCount' => (int) $ad->impressions_count,
+                                'clicksCount' => (int) $ad->clicks_count,
+                                'ctr' => $ad->impressions_count > 0 ? round(($ad->clicks_count / $ad->impressions_count) * 100, 2) : 0,
+                                'maxImpressions' => $ad->max_impressions,
+                                'maxClicks' => $ad->max_clicks,
+                                'imageChangesCount' => (int) $ad->image_changes_count,
+                                'maxImageChanges' => $ad->max_image_changes,
+                                'mobileContent' => $ad->mobile_content,
+                                'mobileImageUrl' => $ad->mobile_image_url,
+                                'mobileLinkUrl' => $ad->mobile_link_url,
+                                'mobileAltText' => $ad->mobile_alt_text,
+                                'mobileWidth' => $ad->mobile_width,
+                                'mobileHeight' => $ad->mobile_height,
+                                'createdAt' => $ad->created_at ? $ad->created_at->format(\DateTime::RFC3339) : null,
+                            ],
+                        ];
 
-                    [$primary, $included] = $serializer->serialize();
-
-                    // Manually add zone relationships to primary resources and
-                    // include zone data since the custom endpoint serializer does
-                    // not auto-include relationships.
-                    $seenZoneIds = [];
-                    foreach ($included as $item) {
-                        if ($item['type'] === 'ad-zones') {
-                            $seenZoneIds[$item['id']] = true;
-                        }
-                    }
-
-                    foreach ($ads as $i => $ad) {
                         if ($ad->zone) {
-                            // Add relationships.zone.data to the primary resource
-                            $primary[$i]['relationships'] = [
+                            $item['relationships'] = [
                                 'zone' => [
                                     'data' => [
                                         'type' => 'ad-zones',
@@ -147,7 +166,6 @@ class AdResource extends AbstractDatabaseResource
                                 ],
                             ];
 
-                            // Also include zone data in the included array
                             if (!isset($seenZoneIds[(string) $ad->zone->id])) {
                                 $seenZoneIds[(string) $ad->zone->id] = true;
                                 $included[] = [
@@ -157,14 +175,16 @@ class AdResource extends AbstractDatabaseResource
                                         'name' => $ad->zone->name,
                                         'position' => $ad->zone->position,
                                         'displayMode' => $ad->zone->display_mode,
-                                        'isDefault' => $ad->zone->is_default,
-                                        'isActive' => $ad->zone->is_active,
+                                        'isDefault' => (bool) $ad->zone->is_default,
+                                        'isActive' => (bool) $ad->zone->is_active,
                                         'label' => $ad->zone->label,
-                                        'sortOrder' => $ad->zone->sort_order,
+                                        'sortOrder' => (int) $ad->zone->sort_order,
                                     ],
                                 ];
                             }
                         }
+
+                        $primary[] = $item;
                     }
 
                     $document = ['data' => $primary];

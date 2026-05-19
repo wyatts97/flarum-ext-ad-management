@@ -56,7 +56,9 @@ class AdResource extends AbstractDatabaseResource
         return [
             Endpoint\Index::make()
                 ->defaultInclude(['zone', 'owner'])
-                ->query(function ($query, $pagination, Context $context, array $filters, ?array $sort, int $offset, ?int $limit) {
+                ->query(function ($query, \Tobyz\JsonApiServer\Context $context) {
+                    $filters = $context->request->getQueryParams()['filter'] ?? [];
+
                     if ($zoneId = Arr::get($filters, 'zone')) {
                         $query->where('zone_id', $zoneId);
                     }
@@ -68,8 +70,6 @@ class AdResource extends AbstractDatabaseResource
                     }
 
                     $query->orderByDesc('priority')->orderByDesc('created_at');
-
-                    return $context->withQuery($query);
                 })
                 ->paginate(20, 200),
             Endpoint\Create::make()
@@ -114,7 +114,7 @@ class AdResource extends AbstractDatabaseResource
                     $serializer = new Serializer($context);
 
                     foreach ($ads as $ad) {
-                        $resource = $context->resource($context->collection->resource($ad, $context));
+                        $resource = $context->collection->resource($this->type());
                         $serializer->addPrimary($resource, $ad, ['zone' => []]);
                     }
 
@@ -200,7 +200,7 @@ class AdResource extends AbstractDatabaseResource
                 }),
             Schema\Str::make('pendingImageUrl')
                 ->nullable()
-                ->visible(false),
+                ->visible(fn ($model, $context) => $context->getActor()->isAdmin()),
             Schema\DateTime::make('startDate')
                 ->nullable()
                 ->writable(function (Ad $ad, Context $context) {
@@ -215,7 +215,7 @@ class AdResource extends AbstractDatabaseResource
                 ->writable(function (Ad $ad, Context $context) {
                     return $context->getActor()->isAdmin();
                 }),
-            Schema\Arr::make('groupVisibility')
+            Schema\Str::make('groupVisibility')
                 ->nullable()
                 ->get(function (Ad $ad) {
                     return $ad->group_visibility;

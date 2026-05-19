@@ -72,9 +72,15 @@ function loadAds() {
         }
 
         console.log('[AdManagement] Loaded', adsCache.length, 'active ads');
+        console.log('[AdManagement] zonePositions:', zonePositions);
+        console.log('[AdManagement] zoneNames:', zoneNames);
+        console.log('[AdManagement] adsCache sample:', adsCache[0]);
 
         // Pick one random ad per position and per zone name for this page load
         selectAdsForRotation();
+
+        console.log('[AdManagement] selectedAdByPosition:', selectedAdByPosition);
+        console.log('[AdManagement] selectedAdByZoneName:', selectedAdByZoneName);
 
         m.redraw();
     }).catch(error => {
@@ -197,8 +203,12 @@ function shouldHideAds() {
 }
 
 function renderZoneAds(position, className) {
-    if (getDisplayModeForPosition(position) === 'stack') {
+    const mode = getDisplayModeForPosition(position);
+    console.log('[AdManagement] renderZoneAds called for', position, 'mode:', mode);
+
+    if (mode === 'stack') {
         const ads = getAdsByPosition(position);
+        console.log('[AdManagement] stack ads for', position, ':', ads.length);
         if (ads.length === 0) return null;
         return (
             <div className={'AdZone ' + className} key={'ad-' + position}>
@@ -211,6 +221,7 @@ function renderZoneAds(position, className) {
 
     // Default: rotate — show one randomly selected ad
     const ad = selectedAdByPosition[position];
+    console.log('[AdManagement] rotate ad for', position, ':', ad ? ad.id : 'none');
     if (!ad) return null;
     return (
         <div className={'AdZone ' + className} key={'ad-' + position}>
@@ -227,16 +238,20 @@ app.initializers.add('wyatts97-ad-management', () => {
     // Inject header ad via DOM since there's no good Mithril hook above the header.
     // Re-renders on every call so the ad rotates on each page navigation.
     function injectHeaderAd() {
+        console.log('[AdManagement] injectHeaderAd called, adsCache:', !!adsCache, 'hide:', shouldHideAds());
         if (shouldHideAds() || !adsCache) return;
 
         const isStack = getDisplayModeForPosition('header') === 'stack';
         const ads = isStack ? getAdsByPosition('header') : [];
         const singleAd = !isStack ? selectedAdByPosition['header'] : null;
 
+        console.log('[AdManagement] header isStack:', isStack, 'ads:', ads.length, 'singleAd:', singleAd ? singleAd.id : 'none');
+
         if (!isStack && !singleAd) return;
         if (isStack && ads.length === 0) return;
 
         const appHeader = document.getElementById('header');
+        console.log('[AdManagement] #header found:', !!appHeader);
         if (!appHeader) return;
 
         let container = document.querySelector('.AdZone--header');
@@ -247,6 +262,7 @@ app.initializers.add('wyatts97-ad-management', () => {
             inner.className = 'container';
             container.appendChild(inner);
             appHeader.parentNode.insertBefore(container, appHeader);
+            console.log('[AdManagement] Created header ad container');
         }
 
         const inner = container.querySelector('.container');
@@ -255,6 +271,7 @@ app.initializers.add('wyatts97-ad-management', () => {
         } else {
             m.render(inner, m(AdBanner, { key: singleAd.id, ad: singleAd }));
         }
+        console.log('[AdManagement] Rendered header ad');
     }
 
     // Add "My Ads" link to user page nav
@@ -271,9 +288,13 @@ app.initializers.add('wyatts97-ad-management', () => {
 
     // Index page: below_header, above_footer, footer zones
     extend(IndexPage.prototype, 'view', function (vdom) {
+        console.log('[AdManagement] IndexPage.view extend called');
         loadAds();
         rotateAdsOnNavigation();
-        if (shouldHideAds() || !adsCache || !vdom || !vdom.children) return;
+        if (shouldHideAds() || !adsCache || !vdom || !vdom.children) {
+            console.log('[AdManagement] IndexPage.view early return — hide:', shouldHideAds(), 'cache:', !!adsCache, 'vdom:', !!vdom, 'children:', !!(vdom && vdom.children));
+            return;
+        }
 
         injectHeaderAd();
 
@@ -284,15 +305,22 @@ app.initializers.add('wyatts97-ad-management', () => {
                 c && c.attrs && c.attrs.className && typeof c.attrs.className === 'string' && c.attrs.className.includes('Hero')
             );
             vdom.children.splice((heroIdx >= 0 ? heroIdx + 1 : 0), 0, belowHeader);
+            console.log('[AdManagement] Injected below_header ad into IndexPage');
         }
 
         // Above footer
         const aboveFooter = renderZoneAds('above_footer', 'AdZone--above-footer');
-        if (aboveFooter) vdom.children.push(aboveFooter);
+        if (aboveFooter) {
+            vdom.children.push(aboveFooter);
+            console.log('[AdManagement] Injected above_footer ad into IndexPage');
+        }
 
         // Footer
         const footer = renderZoneAds('footer', 'AdZone--footer');
-        if (footer) vdom.children.push(footer);
+        if (footer) {
+            vdom.children.push(footer);
+            console.log('[AdManagement] Injected footer ad into IndexPage');
+        }
     });
 
     // Sidebar zone - moved to IndexSidebar in Flarum 2.x
@@ -354,15 +382,20 @@ app.initializers.add('wyatts97-ad-management', () => {
 
     // Discussion page: below_header and footer zones
     extend(DiscussionPage.prototype, 'view', function (vdom) {
+        console.log('[AdManagement] DiscussionPage.view extend called');
         loadAds();
         rotateAdsOnNavigation();
-        if (shouldHideAds() || !adsCache || !vdom || !vdom.children) return;
+        if (shouldHideAds() || !adsCache || !vdom || !vdom.children) {
+            console.log('[AdManagement] DiscussionPage.view early return — hide:', shouldHideAds(), 'cache:', !!adsCache, 'vdom:', !!vdom, 'children:', !!(vdom && vdom.children));
+            return;
+        }
 
         injectHeaderAd();
 
         const belowHeader = renderZoneAds('below_header', 'AdZone--below-header');
         if (belowHeader) {
             vdom.children.unshift(belowHeader);
+            console.log('[AdManagement] Injected below_header ad into DiscussionPage');
         }
     });
 });

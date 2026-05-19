@@ -284,7 +284,6 @@ class AdResource extends AbstractDatabaseResource
             Schema\DateTime::make('createdAt'),
             Schema\DateTime::make('updatedAt'),
             Schema\Relationship\ToOne::make('zone')
-                ->includable()
                 ->inverse('advertisements')
                 ->type('ad-zones'),
             Schema\Relationship\ToOne::make('owner')

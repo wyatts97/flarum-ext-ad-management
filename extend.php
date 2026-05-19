@@ -95,7 +95,7 @@ return [
                 Schema\Boolean::make('adsHidden')
                     ->get(function ($forum, $context) {
                         $actor = $context->getActor();
-                        return ! $actor->isGuest() && $actor->hasPermission('wyatts97-ad-management.noAds');
+                        return ! $actor->isGuest() && ! $actor->isAdmin() && $actor->hasPermission('wyatts97-ad-management.noAds');
                     }),
             ];
         }),

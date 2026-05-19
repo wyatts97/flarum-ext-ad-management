@@ -18,6 +18,7 @@ export default class AdManagementPage extends ExtensionPage {
         this.analyticsData = null;
         this.analyticsPeriod = '30d';
         this.adsFilter = 'all'; // 'all', 'pending_review', 'active', 'inactive'
+        this.saving = false;
         this.loadData();
     }
 
@@ -243,6 +244,7 @@ export default class AdManagementPage extends ExtensionPage {
             mobile_width: attrs.mobileWidth || '',
             mobile_height: attrs.mobileHeight || '',
         };
+        m.redraw();
     }
 
     adForm() {
@@ -417,7 +419,7 @@ export default class AdManagementPage extends ExtensionPage {
         const attributes = {
             name: ad.name,
             type: ad.type,
-            zoneId: parseInt(ad.zone_id),
+            zoneId: ad.zone_id ? parseInt(ad.zone_id) : null,
             content: ad.content || null,
             imageUrl: ad.image_url || null,
             linkUrl: ad.link_url || null,
@@ -540,6 +542,7 @@ export default class AdManagementPage extends ExtensionPage {
             display_mode: attrs.displayMode || 'rotate',
             is_default: attrs.isDefault || false,
         };
+        m.redraw();
     }
 
     zoneForm() {

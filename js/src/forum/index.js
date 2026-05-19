@@ -33,7 +33,9 @@ function loadAds() {
     app.request({
         method: 'GET',
         url: app.forum.attribute('apiUrl') + '/advertisements/active',
-        errorHandler: () => {},
+        errorHandler: (error) => {
+            console.error('[AdManagement] Failed to load active ads:', error);
+        },
     }).then(response => {
         adsCache = response.data || [];
         adsCacheTime = Date.now();
@@ -54,13 +56,31 @@ function loadAds() {
             });
         }
 
+        // Fallback: if included zones are missing, try to look them up from the store
+        if (Object.keys(zonePositions).length === 0 && adsCache.length > 0) {
+            const zones = app.store.all('ad-zones');
+            if (zones && zones.length > 0) {
+                zones.forEach(zone => {
+                    zonePositions[zone.id()] = zone.attribute('position');
+                    zoneNames[zone.id()] = zone.attribute('name');
+                    zoneDisplayModes[zone.id()] = zone.attribute('displayMode') || 'rotate';
+                });
+                console.log('[AdManagement] Used store fallback for zone mapping');
+            } else {
+                console.warn('[AdManagement] No zone mapping available — ads will not display');
+            }
+        }
+
+        console.log('[AdManagement] Loaded', adsCache.length, 'active ads');
+
         // Pick one random ad per position and per zone name for this page load
         selectAdsForRotation();
 
         m.redraw();
-    }).catch(() => {
+    }).catch(error => {
         adsLoading = false;
         adsError = true;
+        console.error('[AdManagement] Error loading ads:', error);
         // Retry after 30 seconds
         setTimeout(() => { adsError = false; loadAds(); }, 30000);
     });

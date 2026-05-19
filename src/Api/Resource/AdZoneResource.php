@@ -60,14 +60,7 @@ class AdZoneResource extends AbstractDatabaseResource
                 ->requiredOnCreate()
                 ->regex('/^[a-z0-9_]+$/')
                 ->maxLength(50)
-                ->unique('ad_zones', 'name', true)
-                ->set(function (AdZone $zone, string $value, Context $context) {
-                    // Don't allow changing name on default zones
-                    if ($context->updating() && $zone->is_default) {
-                        return;
-                    }
-                    $zone->name = $value;
-                }),
+                ->unique('ad_zones', 'name', true),
             Schema\Str::make('label')
                 ->requiredOnCreate()
                 ->maxLength(100),

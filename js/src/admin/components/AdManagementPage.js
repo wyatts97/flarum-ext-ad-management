@@ -499,13 +499,11 @@ export default class AdManagementPage extends ExtensionPage {
             <div className="AdManagement-form">
                 <h3>{app.translator.trans('wyatts97-ad-management.admin.zones.' + (isNew ? 'create' : 'edit'))}</h3>
 
-                {!zone.is_default && (
-                    <div className="Form-group">
-                        <label>{app.translator.trans('wyatts97-ad-management.admin.zones.name')}</label>
-                        <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.zones.name_help')}</p>
-                        <input className="FormControl" type="text" value={zone.name} oninput={e => { zone.name = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '_'); }} />
-                    </div>
-                )}
+                <div className="Form-group">
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.zones.name')}</label>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.zones.name_help')}</p>
+                    <input className="FormControl" type="text" value={zone.name} oninput={e => { zone.name = e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '_'); }} />
+                </div>
 
                 <div className="Form-group">
                     <label>{app.translator.trans('wyatts97-ad-management.admin.zones.label')}</label>
@@ -517,16 +515,14 @@ export default class AdManagementPage extends ExtensionPage {
                     <textarea className="FormControl" rows="3" value={zone.description} oninput={e => { zone.description = e.target.value; }} />
                 </div>
 
-                {!zone.is_default && (
-                    <div className="Form-group">
-                        <label>{app.translator.trans('wyatts97-ad-management.admin.zones.position')}</label>
-                        <select className="FormControl" value={zone.position} onchange={e => { zone.position = e.target.value; }}>
-                            {['header', 'below_header', 'between_posts', 'sidebar', 'above_footer', 'footer', 'custom'].map(pos => (
-                                <option value={pos}>{app.translator.trans('wyatts97-ad-management.admin.zones.positions.' + pos)}</option>
-                            ))}
-                        </select>
-                    </div>
-                )}
+                <div className="Form-group">
+                    <label>{app.translator.trans('wyatts97-ad-management.admin.zones.position')}</label>
+                    <select className="FormControl" value={zone.position} onchange={e => { zone.position = e.target.value; }}>
+                        {['header', 'below_header', 'between_posts', 'sidebar', 'above_footer', 'footer', 'custom'].map(pos => (
+                            <option value={pos}>{app.translator.trans('wyatts97-ad-management.admin.zones.positions.' + pos)}</option>
+                        ))}
+                    </select>
+                </div>
 
                 <div className="Form-group">
                     <Switch state={zone.is_active} onchange={value => { zone.is_active = value; }}>

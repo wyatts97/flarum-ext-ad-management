@@ -66,9 +66,14 @@ export default class AdBanner extends Component {
         }
 
         if (attrs.type === 'html' || attrs.type === 'adsense') {
-            return <div className="AdBanner-html" oncreate={vnode => {
+            const injectContent = (vnode) => {
                 const container = vnode.dom;
                 const content = attrs.content;
+
+                if (!content) return;
+
+                // Clear previously injected content to avoid duplication on update
+                container.innerHTML = '';
 
                 // Parse content into a temporary element
                 const temp = document.createElement('div');
@@ -117,7 +122,9 @@ export default class AdBanner extends Component {
                         }, 100);
                     });
                 }
-            }} />;
+            };
+
+            return <div className="AdBanner-html" oncreate={injectContent} onupdate={injectContent} />;
         }
 
         return null;

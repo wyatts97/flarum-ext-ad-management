@@ -2,12 +2,12 @@
 
 namespace wyatts97\AdManagement\Api\Resource;
 
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
 use Flarum\Foundation\ValidationException;
 use Illuminate\Database\Eloquent\Builder;
+use Tobyz\JsonApiServer\Context;
 use wyatts97\AdManagement\Model\AdZone;
 
 /**

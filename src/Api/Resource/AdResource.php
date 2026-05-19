@@ -2,11 +2,11 @@
 
 namespace wyatts97\AdManagement\Api\Resource;
 
-use Flarum\Api\Context;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Resource\AbstractDatabaseResource;
 use Flarum\Api\Schema;
 use Flarum\Api\Serializer;
+use Tobyz\JsonApiServer\Context;
 use Flarum\Foundation\ValidationException;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Mail\Mailer;

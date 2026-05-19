@@ -34,7 +34,6 @@ class AdZoneResource extends AbstractDatabaseResource
     {
         return [
             Endpoint\Index::make()
-                ->defaultSort('sortOrder')
                 ->paginate(50, 100),
             Endpoint\Create::make()
                 ->authenticated()

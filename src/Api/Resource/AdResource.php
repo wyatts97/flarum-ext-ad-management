@@ -125,8 +125,9 @@ class AdResource extends AbstractDatabaseResource
 
                     [$primary, $included] = $serializer->serialize();
 
-                    // Manually include zone data since the custom endpoint
-                    // serializer does not auto-include relationships.
+                    // Manually add zone relationships to primary resources and
+                    // include zone data since the custom endpoint serializer does
+                    // not auto-include relationships.
                     $seenZoneIds = [];
                     foreach ($included as $item) {
                         if ($item['type'] === 'ad-zones') {
@@ -134,22 +135,35 @@ class AdResource extends AbstractDatabaseResource
                         }
                     }
 
-                    foreach ($ads as $ad) {
-                        if ($ad->zone && !isset($seenZoneIds[(string) $ad->zone->id])) {
-                            $seenZoneIds[(string) $ad->zone->id] = true;
-                            $included[] = [
-                                'type' => 'ad-zones',
-                                'id' => (string) $ad->zone->id,
-                                'attributes' => [
-                                    'name' => $ad->zone->name,
-                                    'position' => $ad->zone->position,
-                                    'displayMode' => $ad->zone->display_mode,
-                                    'isDefault' => $ad->zone->is_default,
-                                    'isActive' => $ad->zone->is_active,
-                                    'label' => $ad->zone->label,
-                                    'sortOrder' => $ad->zone->sort_order,
+                    foreach ($ads as $i => $ad) {
+                        if ($ad->zone) {
+                            // Add relationships.zone.data to the primary resource
+                            $primary[$i]['relationships'] = [
+                                'zone' => [
+                                    'data' => [
+                                        'type' => 'ad-zones',
+                                        'id' => (string) $ad->zone->id,
+                                    ],
                                 ],
                             ];
+
+                            // Also include zone data in the included array
+                            if (!isset($seenZoneIds[(string) $ad->zone->id])) {
+                                $seenZoneIds[(string) $ad->zone->id] = true;
+                                $included[] = [
+                                    'type' => 'ad-zones',
+                                    'id' => (string) $ad->zone->id,
+                                    'attributes' => [
+                                        'name' => $ad->zone->name,
+                                        'position' => $ad->zone->position,
+                                        'displayMode' => $ad->zone->display_mode,
+                                        'isDefault' => $ad->zone->is_default,
+                                        'isActive' => $ad->zone->is_active,
+                                        'label' => $ad->zone->label,
+                                        'sortOrder' => $ad->zone->sort_order,
+                                    ],
+                                ];
+                            }
                         }
                     }
 

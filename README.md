@@ -8,6 +8,7 @@ A comprehensive ad management system for [Flarum](https://flarum.org) forums. Su
 
 - **Ad Zones** — Named positions (`header`, `below_header`, `between_posts`, `sidebar`, `above_footer`, `footer`, `custom`) with optional dimension constraints
 - **Ad Types** — Image banners, raw HTML/JS, and Google AdSense units
+- **Mobile/Desktop Content** — Per-ad alternate mobile creative that switches automatically based on viewport width (<= 768px)
 - **Rotation** — One random ad per zone per page load (randomized each visit)
 - **Analytics** — Per-ad impression and click tracking with daily breakdowns and CTR
 - **Approval Workflow** — User-submitted ads queue for admin review before going live; optional approval for image changes
@@ -48,6 +49,17 @@ Then enable it in your Flarum admin panel under **Extensions**.
    0 8 * * * php /var/www/flarum ad-management:send-notifications >> /dev/null 2>&1
    ```
 4. (Optional) Grant the **Submit Advertisements** permission to allow forum members to submit ads for review.
+
+## Mobile Content
+
+Each ad can have an optional mobile variant that is shown automatically when the visitor's viewport width is **768px or less**:
+
+- **Image ads** — Set a separate mobile image URL, link URL, alt text, and dimensions.
+- **HTML / AdSense ads** — Provide alternate mobile HTML/JS content.
+
+If the mobile fields are left blank, the desktop content is used on all devices. The switch happens client-side at render time, so no server-side device detection is required.
+
+To set mobile content, go to **Admin → Ad Management → Advertisements**, edit an ad, and fill in the **Mobile Content** section.
 
 ## Console Commands
 

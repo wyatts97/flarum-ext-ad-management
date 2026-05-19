@@ -23,6 +23,14 @@ export default class AdManagementPage extends ExtensionPage {
     }
 
     loadData() {
+        const enabled = this.extension?.enabled ??
+            Object.values(app.data.extensions || {}).some(ext => ext.id === 'wyatts97-ad-management' && ext.enabled);
+
+        if (!enabled) {
+            this.loading = false;
+            return;
+        }
+
         this.loading = true;
         Promise.all([
             app.request({ method: 'GET', url: app.forum.attribute('apiUrl') + '/advertisements' }),

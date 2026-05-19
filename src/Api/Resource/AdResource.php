@@ -488,6 +488,23 @@ class AdResource extends AbstractDatabaseResource
         return $model;
     }
 
+    public function deleting(object $model, Context $context): void
+    {
+        // Clean up related click records
+        $model->clicks()->delete();
+
+        // Clean up stored image files
+        if ($model->image_url) {
+            $this->imageService->deleteCompressedImage($model->image_url);
+        }
+        if ($model->pending_image_url) {
+            $this->imageService->deleteCompressedImage($model->pending_image_url);
+        }
+        if ($model->mobile_image_url) {
+            $this->imageService->deleteCompressedImage($model->mobile_image_url);
+        }
+    }
+
     private function validateLinkUrl(?string $url): void
     {
         if ($url === null || $url === '') {

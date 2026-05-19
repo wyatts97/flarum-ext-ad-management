@@ -10,14 +10,6 @@ class Ad extends AbstractModel
 {
     protected $table = 'advertisements';
 
-    protected static function booted()
-    {
-        static::deleting(function ($ad) {
-            // Delete related click records first to avoid foreign key constraint violations
-            $ad->clicks()->delete();
-        });
-    }
-
     protected $casts = [
         'is_active' => 'boolean',
         'created_at' => 'datetime',

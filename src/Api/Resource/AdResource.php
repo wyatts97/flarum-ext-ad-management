@@ -238,6 +238,36 @@ class AdResource extends AbstractDatabaseResource
             Schema\Integer::make('height')
                 ->nullable()
                 ->writable(),
+            Schema\Str::make('mobileContent')
+                ->nullable()
+                ->writable(function (Ad $ad, Context $context) {
+                    return $context->getActor()->isAdmin();
+                }),
+            Schema\Str::make('mobileImageUrl')
+                ->nullable()
+                ->writable(function (Ad $ad, Context $context) {
+                    return $context->getActor()->isAdmin();
+                }),
+            Schema\Str::make('mobileLinkUrl')
+                ->nullable()
+                ->writable(function (Ad $ad, Context $context) {
+                    return $context->getActor()->isAdmin();
+                }),
+            Schema\Str::make('mobileAltText')
+                ->nullable()
+                ->writable(function (Ad $ad, Context $context) {
+                    return $context->getActor()->isAdmin();
+                }),
+            Schema\Integer::make('mobileWidth')
+                ->nullable()
+                ->writable(function (Ad $ad, Context $context) {
+                    return $context->getActor()->isAdmin();
+                }),
+            Schema\Integer::make('mobileHeight')
+                ->nullable()
+                ->writable(function (Ad $ad, Context $context) {
+                    return $context->getActor()->isAdmin();
+                }),
             Schema\Boolean::make('isActive')
                 ->writable(function (Ad $ad, Context $context) {
                     return $context->getActor()->isAdmin();

@@ -236,6 +236,12 @@ export default class AdManagementPage extends ExtensionPage {
             max_clicks: attrs.maxClicks || '',
             max_image_changes: attrs.maxImageChanges || '',
             user_id: attrs.userId || '',
+            mobile_content: attrs.mobileContent || '',
+            mobile_image_url: attrs.mobileImageUrl || '',
+            mobile_link_url: attrs.mobileLinkUrl || '',
+            mobile_alt_text: attrs.mobileAltText || '',
+            mobile_width: attrs.mobileWidth || '',
+            mobile_height: attrs.mobileHeight || '',
         };
     }
 
@@ -301,6 +307,45 @@ export default class AdManagementPage extends ExtensionPage {
                             <div>
                                 <label>{app.translator.trans('wyatts97-ad-management.admin.ads.height')}</label>
                                 <input className="FormControl" type="number" value={ad.height} oninput={e => { ad.height = e.target.value; }} />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                <div className="Form-group">
+                    <h4>{app.translator.trans('wyatts97-ad-management.admin.ads.mobile_content_title')}</h4>
+                    <p className="helpText">{app.translator.trans('wyatts97-ad-management.admin.ads.mobile_content_help')}</p>
+                </div>
+
+                {(ad.type === 'html' || ad.type === 'adsense') && (
+                    <div className="Form-group">
+                        <label>{app.translator.trans('wyatts97-ad-management.admin.ads.mobile_content')}</label>
+                        <textarea className="FormControl" rows="4" value={ad.mobile_content} oninput={e => { ad.mobile_content = e.target.value; }} />
+                    </div>
+                )}
+
+                {ad.type === 'image' && (
+                    <div>
+                        <div className="Form-group">
+                            <label>{app.translator.trans('wyatts97-ad-management.admin.ads.mobile_image_url')}</label>
+                            <input className="FormControl" type="text" value={ad.mobile_image_url} oninput={e => { ad.mobile_image_url = e.target.value; }} />
+                        </div>
+                        <div className="Form-group">
+                            <label>{app.translator.trans('wyatts97-ad-management.admin.ads.mobile_link_url')}</label>
+                            <input className="FormControl" type="text" value={ad.mobile_link_url} oninput={e => { ad.mobile_link_url = e.target.value; }} />
+                        </div>
+                        <div className="Form-group">
+                            <label>{app.translator.trans('wyatts97-ad-management.admin.ads.mobile_alt_text')}</label>
+                            <input className="FormControl" type="text" value={ad.mobile_alt_text} oninput={e => { ad.mobile_alt_text = e.target.value; }} />
+                        </div>
+                        <div className="Form-group Form-group--inline">
+                            <div>
+                                <label>{app.translator.trans('wyatts97-ad-management.admin.ads.mobile_width')}</label>
+                                <input className="FormControl" type="number" value={ad.mobile_width} oninput={e => { ad.mobile_width = e.target.value; }} />
+                            </div>
+                            <div>
+                                <label>{app.translator.trans('wyatts97-ad-management.admin.ads.mobile_height')}</label>
+                                <input className="FormControl" type="number" value={ad.mobile_height} oninput={e => { ad.mobile_height = e.target.value; }} />
                             </div>
                         </div>
                     </div>
@@ -387,6 +432,12 @@ export default class AdManagementPage extends ExtensionPage {
             maxImpressions: ad.max_impressions ? parseInt(ad.max_impressions) : null,
             maxClicks: ad.max_clicks ? parseInt(ad.max_clicks) : null,
             maxImageChanges: ad.max_image_changes ? parseInt(ad.max_image_changes) : null,
+            mobileContent: ad.mobile_content || null,
+            mobileImageUrl: ad.mobile_image_url || null,
+            mobileLinkUrl: ad.mobile_link_url || null,
+            mobileAltText: ad.mobile_alt_text || null,
+            mobileWidth: ad.mobile_width ? parseInt(ad.mobile_width) : null,
+            mobileHeight: ad.mobile_height ? parseInt(ad.mobile_height) : null,
         };
 
         this.saving = true;

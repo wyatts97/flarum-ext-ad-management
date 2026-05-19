@@ -35,7 +35,35 @@ export default class AdBanner extends Component {
         );
     }
 
+    isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    getMobileAwareAttrs(attrs) {
+        const isMobile = this.isMobile();
+        const mobileAware = { ...attrs };
+
+        if (attrs.type === 'image') {
+            if (isMobile && (attrs.mobileImageUrl || attrs.mobile_image_url)) {
+                mobileAware.imageUrl = attrs.mobileImageUrl || attrs.mobile_image_url;
+                mobileAware.linkUrl = attrs.mobileLinkUrl || attrs.mobile_link_url || attrs.linkUrl || attrs.link_url;
+                mobileAware.altText = attrs.mobileAltText || attrs.mobile_alt_text || attrs.altText || attrs.alt_text;
+                mobileAware.width = attrs.mobileWidth || attrs.mobile_width || attrs.width;
+                mobileAware.height = attrs.mobileHeight || attrs.mobile_height || attrs.height;
+            }
+        } else if ((attrs.type === 'html' || attrs.type === 'adsense') && isMobile) {
+            const mobileContent = attrs.mobileContent || attrs.mobile_content;
+            if (mobileContent) {
+                mobileAware.content = mobileContent;
+            }
+        }
+
+        return mobileAware;
+    }
+
     renderAd(attrs, adId) {
+        attrs = this.getMobileAwareAttrs(attrs);
+
         if (attrs.type === 'image') {
             const imgAttrs = {
                 src: attrs.imageUrl || attrs.image_url,

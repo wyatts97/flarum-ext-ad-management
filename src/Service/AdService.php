@@ -71,6 +71,12 @@ class AdService
             $ad->user_id = Arr::get($data, 'user_id', $actor->id);
             $ad->type = Arr::get($data, 'type', 'image');
             $ad->content = Arr::get($data, 'content');
+            $ad->mobile_content = Arr::get($data, 'mobile_content');
+            $ad->mobile_image_url = Arr::get($data, 'mobile_image_url');
+            $ad->mobile_link_url = Arr::get($data, 'mobile_link_url');
+            $ad->mobile_alt_text = Arr::get($data, 'mobile_alt_text');
+            $ad->mobile_width = Arr::get($data, 'mobile_width');
+            $ad->mobile_height = Arr::get($data, 'mobile_height');
             $ad->is_active = Arr::get($data, 'is_active', true);
             $ad->status = $ad->is_active ? 'active' : 'inactive';
             $ad->start_date = Arr::get($data, 'start_date');
@@ -128,6 +134,24 @@ class AdService
         }
         if (Arr::has($data, 'content') && $isAdmin) {
             $ad->content = Arr::get($data, 'content');
+        }
+        if (Arr::has($data, 'mobile_content') && $isAdmin) {
+            $ad->mobile_content = Arr::get($data, 'mobile_content');
+        }
+        if (Arr::has($data, 'mobile_image_url') && $isAdmin) {
+            $ad->mobile_image_url = Arr::get($data, 'mobile_image_url');
+        }
+        if (Arr::has($data, 'mobile_link_url') && $isAdmin) {
+            $ad->mobile_link_url = Arr::get($data, 'mobile_link_url');
+        }
+        if (Arr::has($data, 'mobile_alt_text') && $isAdmin) {
+            $ad->mobile_alt_text = Arr::get($data, 'mobile_alt_text');
+        }
+        if (Arr::has($data, 'mobile_width') && $isAdmin) {
+            $ad->mobile_width = Arr::get($data, 'mobile_width');
+        }
+        if (Arr::has($data, 'mobile_height') && $isAdmin) {
+            $ad->mobile_height = Arr::get($data, 'mobile_height');
         }
         if (Arr::has($data, 'link_url')) {
             $linkUrl = Arr::get($data, 'link_url');

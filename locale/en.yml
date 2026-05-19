@@ -120,6 +120,14 @@ wyatts97-ad-management:
       max_clicks: Max Clicks
       max_clicks_help: "Ad will be deactivated after this many clicks. Leave empty for unlimited."
       max_image_changes: Max Image Changes
+      mobile_content_title: Mobile Content
+      mobile_content_help: "Optional alternate content shown on mobile devices (screen width <= 768px). Leave blank to use desktop content."
+      mobile_content: Mobile HTML/JS Content
+      mobile_image_url: Mobile Image URL
+      mobile_link_url: Mobile Link URL
+      mobile_alt_text: Mobile Alt Text
+      mobile_width: Mobile Width (px)
+      mobile_height: Mobile Height (px)
       owner: Ad Owner
       owner_help: "Username of the ad owner. Leave empty for no owner."
       empty: No advertisements found.

@@ -49,6 +49,25 @@ class AdResource extends AbstractDatabaseResource
         if (!$actor->isAdmin()) {
             $query->where('user_id', $actor->id);
         }
+
+        // Apply Index-only filters and default ordering. Flarum disables
+        // the json-api-server filters() method on database resources, so we
+        // implement filtering here instead of via a query() callback.
+        if ($context instanceof Context && $context->listing()) {
+            $filters = $context->request->getQueryParams()['filter'] ?? [];
+
+            if ($zoneId = Arr::get($filters, 'zone')) {
+                $query->where('zone_id', $zoneId);
+            }
+            if (Arr::has($filters, 'active')) {
+                $query->where('is_active', Arr::get($filters, 'active'));
+            }
+            if ($status = Arr::get($filters, 'status')) {
+                $query->where('status', $status);
+            }
+
+            $query->orderByDesc('priority')->orderByDesc('created_at');
+        }
     }
 
     public function endpoints(): array
@@ -56,21 +75,6 @@ class AdResource extends AbstractDatabaseResource
         return [
             Endpoint\Index::make()
                 ->defaultInclude(['zone', 'owner'])
-                ->query(function ($query, \Tobyz\JsonApiServer\Context $context) {
-                    $filters = $context->request->getQueryParams()['filter'] ?? [];
-
-                    if ($zoneId = Arr::get($filters, 'zone')) {
-                        $query->where('zone_id', $zoneId);
-                    }
-                    if (Arr::has($filters, 'active')) {
-                        $query->where('is_active', Arr::get($filters, 'active'));
-                    }
-                    if ($status = Arr::get($filters, 'status')) {
-                        $query->where('status', $status);
-                    }
-
-                    $query->orderByDesc('priority')->orderByDesc('created_at');
-                })
                 ->paginate(20, 200),
             Endpoint\Create::make()
                 ->authenticated()
@@ -114,8 +118,8 @@ class AdResource extends AbstractDatabaseResource
                     $serializer = new Serializer($context);
 
                     foreach ($ads as $ad) {
-                        $resource = $context->collection->resource($this->type());
-                        $serializer->addPrimary($resource, $ad, ['zone' => []]);
+                        // $this is the 'advertisements' Resource instance.
+                        $serializer->addPrimary($this, $ad, ['zone' => []]);
                     }
 
                     [$primary, $included] = $serializer->serialize();
@@ -166,9 +170,33 @@ class AdResource extends AbstractDatabaseResource
                 ->writable(function (Ad $ad, Context $context) {
                     return $context->getActor()->isAdmin();
                 }),
+            Schema\Integer::make('zoneId')
+                ->writable(),
             Schema\Str::make('imageUrl')
                 ->nullable()
                 ->writable(),
+            // Virtual write-only action attribute used by admins to approve or
+            // reject the pending image change on an ad. Not persisted.
+            Schema\Str::make('pendingImageAction')
+                ->writableOnUpdate()
+                ->visible(fn () => false)
+                ->set(function (Ad $ad, ?string $value, Context $context) {
+                    if (!$value || !$context->getActor()->isAdmin()) {
+                        return;
+                    }
+                    if ($value === 'approve' && $ad->pending_image_url) {
+                        if ($ad->image_url) {
+                            $this->imageService->deleteCompressedImage($ad->image_url);
+                        }
+                        $ad->image_url = $ad->pending_image_url;
+                        $ad->pending_image_url = null;
+                    } elseif ($value === 'reject') {
+                        if ($ad->pending_image_url) {
+                            $this->imageService->deleteCompressedImage($ad->pending_image_url);
+                        }
+                        $ad->pending_image_url = null;
+                    }
+                }),
             Schema\Str::make('linkUrl')
                 ->nullable()
                 ->writable(),
@@ -285,29 +313,15 @@ class AdResource extends AbstractDatabaseResource
     {
         $actor = $context->getActor();
         $isAdmin = $actor->isAdmin();
-        $body = $context->body();
-        $data = $body['data']['attributes'] ?? [];
 
-        // Handle pending image action (admin only)
-        if ($isAdmin && isset($data['pending_image_action'])) {
-            $action = $data['pending_image_action'];
-            if ($action === 'approve' && $model->pending_image_url) {
-                if ($model->image_url) {
-                    $this->imageService->deleteCompressedImage($model->image_url);
-                }
-                $model->image_url = $model->pending_image_url;
-                $model->pending_image_url = null;
-            } elseif ($action === 'reject') {
-                if ($model->pending_image_url) {
-                    $this->imageService->deleteCompressedImage($model->pending_image_url);
-                }
-                $model->pending_image_url = null;
-            }
-        }
+        // Handle image URL changes with processing. By the time saving() runs,
+        // the framework has already set $model->image_url from the request via
+        // Schema\Str::make('imageUrl')'s default setter, so we detect the
+        // change with isDirty() and getOriginal().
+        if ($model->isDirty('image_url')) {
+            $newImageUrl = $model->image_url;
+            $originalImageUrl = $model->getOriginal('image_url');
 
-        // Handle image URL changes with processing
-        if (isset($data['image_url']) && $data['image_url'] !== $model->getOriginal('image_url')) {
-            $newImageUrl = $data['image_url'];
             if ($newImageUrl && $model->type === 'image') {
                 $this->imageService->validateImageUrl($newImageUrl);
                 $zone = $model->zone_id ? AdZone::find($model->zone_id) : null;
@@ -318,26 +332,28 @@ class AdResource extends AbstractDatabaseResource
                 );
 
                 if (!$isAdmin && (bool) $this->settings->get('ralkage-ad-management.require_image_approval', false)) {
+                    // Queue for approval: revert image_url and stash the
+                    // processed URL in pending_image_url.
+                    $model->image_url = $originalImageUrl;
                     if ($model->pending_image_url) {
                         $this->imageService->deleteCompressedImage($model->pending_image_url);
                     }
                     $model->pending_image_url = $processedUrl;
                     $model->image_changes_count++;
                 } else {
-                    if ($model->image_url) {
-                        $this->imageService->deleteCompressedImage($model->image_url);
+                    // Apply immediately.
+                    if ($originalImageUrl) {
+                        $this->imageService->deleteCompressedImage($originalImageUrl);
                     }
                     $model->image_url = $processedUrl;
                     $model->image_changes_count++;
                 }
-            } else {
-                $model->image_url = $newImageUrl;
             }
         }
 
-        // Validate link URL
-        if (isset($data['link_url'])) {
-            $this->validateLinkUrl($data['link_url']);
+        // Validate link URL when it has been changed.
+        if ($model->isDirty('link_url')) {
+            $this->validateLinkUrl($model->link_url);
         }
 
         return $model;
@@ -365,13 +381,13 @@ class AdResource extends AbstractDatabaseResource
             ]);
         }
 
-        // Check image change limit for non-admins
-        $body = $context->body();
-        $data = $body['data']['attributes'] ?? [];
-        if (!$isAdmin && isset($data['image_url']) && $data['image_url'] !== $model->getOriginal('image_url')) {
+        // Check image change limit for non-admins. By this point the new
+        // image_url has already been set by the framework, so we detect the
+        // change with isDirty().
+        if (!$isAdmin && $model->isDirty('image_url')) {
             if ($model->max_image_changes !== null && $model->image_changes_count >= $model->max_image_changes) {
                 throw new ValidationException([
-                    'image_url' => 'You have reached the maximum number of image changes for this ad.',
+                    'imageUrl' => 'You have reached the maximum number of image changes for this ad.',
                 ]);
             }
         }

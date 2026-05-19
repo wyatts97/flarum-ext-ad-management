@@ -161,10 +161,10 @@ export default class MyAdsPage extends UserPage {
                     attributes: {
                         name: ad.name,
                         type: 'image',
-                        zone_id: parseInt(ad.zone_id),
-                        image_url: ad.image_url,
-                        link_url: ad.link_url || null,
-                        alt_text: ad.alt_text || null,
+                        zoneId: parseInt(ad.zone_id),
+                        imageUrl: ad.image_url,
+                        linkUrl: ad.link_url || null,
+                        altText: ad.alt_text || null,
                         width: ad.width ? parseInt(ad.width) : null,
                         height: ad.height ? parseInt(ad.height) : null,
                     },
@@ -272,7 +272,7 @@ export default class MyAdsPage extends UserPage {
         app.request({
             method: 'PATCH',
             url: app.forum.attribute('apiUrl') + '/advertisements/' + ad.id,
-            body: { data: { attributes: { image_url: newUrl } } },
+            body: { data: { attributes: { imageUrl: newUrl } } },
         }).then(() => {
             this.loadAds();
         }).catch(error => {

@@ -211,7 +211,7 @@ function renderZoneAds(position, className) {
         console.log('[AdManagement] stack ads for', position, ':', ads.length);
         if (ads.length === 0) return null;
         return (
-            <div className={'AdZone ' + className} key={'ad-' + position}>
+            <div className={'AdZone ' + className}>
                 <div className="container">
                     {ads.map(ad => <AdBanner key={ad.id} ad={ad} />)}
                 </div>
@@ -224,9 +224,9 @@ function renderZoneAds(position, className) {
     console.log('[AdManagement] rotate ad for', position, ':', ad ? ad.id : 'none');
     if (!ad) return null;
     return (
-        <div className={'AdZone ' + className} key={'ad-' + position}>
+        <div className={'AdZone ' + className}>
             <div className="container">
-                <AdBanner key={ad.id} ad={ad} />
+                <AdBanner ad={ad} />
             </div>
         </div>
     );

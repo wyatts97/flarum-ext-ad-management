@@ -216,6 +216,7 @@ export default class AdManagementPage extends ExtensionPage {
     }
 
     editAd(ad) {
+        console.log('[AdManagement] editAd called, ad:', ad, 'this:', this);
         const attrs = ad.attributes || {};
         this.editingAd = {
             id: ad.id || null,
@@ -244,7 +245,7 @@ export default class AdManagementPage extends ExtensionPage {
             mobile_width: attrs.mobileWidth || '',
             mobile_height: attrs.mobileHeight || '',
         };
-        m.redraw();
+        console.log('[AdManagement] editingAd set, zones:', this.zones.length);
     }
 
     adForm() {
@@ -542,7 +543,7 @@ export default class AdManagementPage extends ExtensionPage {
             display_mode: attrs.displayMode || 'rotate',
             is_default: attrs.isDefault || false,
         };
-        m.redraw();
+        console.log('[AdManagement] editingZone set');
     }
 
     zoneForm() {

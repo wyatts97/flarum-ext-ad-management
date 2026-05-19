@@ -246,6 +246,7 @@ export default class AdManagementPage extends ExtensionPage {
             mobile_height: attrs.mobileHeight || '',
         };
         console.log('[AdManagement] editingAd set, zones:', this.zones.length);
+        m.redraw();
     }
 
     adForm() {
@@ -544,6 +545,7 @@ export default class AdManagementPage extends ExtensionPage {
             is_default: attrs.isDefault || false,
         };
         console.log('[AdManagement] editingZone set');
+        m.redraw();
     }
 
     zoneForm() {

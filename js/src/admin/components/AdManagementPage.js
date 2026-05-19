@@ -448,12 +448,12 @@ export default class AdManagementPage extends ExtensionPage {
         app.request({
             method: isNew ? 'POST' : 'PATCH',
             url: app.forum.attribute('apiUrl') + '/advertisements' + (isNew ? '' : '/' + ad.id),
-            body: { data: { attributes } },
+            body: { data: { type: 'advertisements', attributes } },
         }).then(() => {
             this.editingAd = null;
             this.saving = false;
             this.loadData();
-        }).catch(() => {
+        }).catch((error) => {
             this.saving = false;
             m.redraw();
         });
@@ -639,7 +639,7 @@ export default class AdManagementPage extends ExtensionPage {
         app.request({
             method: isNew ? 'POST' : 'PATCH',
             url: app.forum.attribute('apiUrl') + '/ad-zones' + (isNew ? '' : '/' + zone.id),
-            body: { data: { attributes } },
+            body: { data: { type: 'ad-zones', attributes } },
         }).then(() => {
             this.editingZone = null;
             this.savingZone = false;

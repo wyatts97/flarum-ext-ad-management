@@ -120,11 +120,38 @@ class AdResource extends AbstractDatabaseResource
                     $serializer = new Serializer($context);
 
                     foreach ($ads as $ad) {
-                        // $this is the 'advertisements' Resource instance.
-                        $serializer->addPrimary($this, $ad, ['zone' => []]);
+                        $serializer->addPrimary($this, $ad);
                     }
 
                     [$primary, $included] = $serializer->serialize();
+
+                    // Manually include zone data since the custom endpoint
+                    // serializer does not auto-include relationships.
+                    $seenZoneIds = [];
+                    foreach ($included as $item) {
+                        if ($item['type'] === 'ad-zones') {
+                            $seenZoneIds[$item['id']] = true;
+                        }
+                    }
+
+                    foreach ($ads as $ad) {
+                        if ($ad->zone && !isset($seenZoneIds[(string) $ad->zone->id])) {
+                            $seenZoneIds[(string) $ad->zone->id] = true;
+                            $included[] = [
+                                'type' => 'ad-zones',
+                                'id' => (string) $ad->zone->id,
+                                'attributes' => [
+                                    'name' => $ad->zone->name,
+                                    'position' => $ad->zone->position,
+                                    'displayMode' => $ad->zone->display_mode,
+                                    'isDefault' => $ad->zone->is_default,
+                                    'isActive' => $ad->zone->is_active,
+                                    'label' => $ad->zone->label,
+                                    'sortOrder' => $ad->zone->sort_order,
+                                ],
+                            ];
+                        }
+                    }
 
                     $document = ['data' => $primary];
 
@@ -284,6 +311,7 @@ class AdResource extends AbstractDatabaseResource
             Schema\DateTime::make('createdAt'),
             Schema\DateTime::make('updatedAt'),
             Schema\Relationship\ToOne::make('zone')
+                ->includable()
                 ->inverse('advertisements')
                 ->type('ad-zones'),
             Schema\Relationship\ToOne::make('owner')

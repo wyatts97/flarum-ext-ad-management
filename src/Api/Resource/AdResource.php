@@ -462,6 +462,13 @@ class AdResource extends AbstractDatabaseResource
         return $model;
     }
 
+    public function deleting(object $model, Context $context): ?object
+    {
+        // Delete related click records first to avoid foreign key constraint violations
+        $model->clicks()->delete();
+        return $model;
+    }
+
     public function updating(object $model, Context $context): ?object
     {
         $actor = $context->getActor();

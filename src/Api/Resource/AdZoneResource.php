@@ -38,15 +38,21 @@ class AdZoneResource extends AbstractDatabaseResource
                 ->paginate(50, 100),
             Endpoint\Create::make()
                 ->authenticated()
-                ->admin()
+                ->visible(function (Context $context) {
+                    return $context->getActor()->isAdmin();
+                })
                 ->defaultInclude(['advertisements']),
             Endpoint\Update::make()
                 ->authenticated()
-                ->admin()
+                ->visible(function (Context $context) {
+                    return $context->getActor()->isAdmin();
+                })
                 ->defaultInclude(['advertisements']),
             Endpoint\Delete::make()
                 ->authenticated()
-                ->admin(),
+                ->visible(function (Context $context) {
+                    return $context->getActor()->isAdmin();
+                }),
         ];
     }
 

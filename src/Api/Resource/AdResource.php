@@ -92,7 +92,9 @@ class AdResource extends AbstractDatabaseResource
                 ->defaultInclude(['zone', 'owner']),
             Endpoint\Delete::make()
                 ->authenticated()
-                ->admin(),
+                ->visible(function (Context $context) {
+                    return $context->getActor()->isAdmin();
+                }),
             Endpoint\Endpoint::make('active')
                 ->route('GET', '/active')
                 ->action(function (Context $context) {

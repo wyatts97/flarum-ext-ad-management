@@ -36,7 +36,7 @@ class Ad extends AbstractModel
 
     public function clicks()
     {
-        return $this->hasMany(AdClick::class, 'ad_id');
+        return $this->hasMany(AdClick::class, 'ad_id')->withDefault();
     }
 
     public function getGroupVisibilityAttribute($value)

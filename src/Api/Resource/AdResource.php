@@ -449,12 +449,28 @@ class AdResource extends AbstractDatabaseResource
 
     public function deleting(object $model, Context $context): void
     {
-        // Simple manual deletion of clicks without foreign key constraints
+        // Delete associated click records
         try {
             \wyatts97\AdManagement\Model\AdClick::where('ad_id', $model->id)->delete();
         } catch (\Exception $e) {
             // Log error but don't prevent deletion
             error_log('Error deleting ad clicks: ' . $e->getMessage());
+        }
+
+        // Clean up compressed images
+        try {
+            if ($model->image_url) {
+                $this->imageService->deleteCompressedImage($model->image_url);
+            }
+            if ($model->pending_image_url) {
+                $this->imageService->deleteCompressedImage($model->pending_image_url);
+            }
+            if ($model->mobile_image_url) {
+                $this->imageService->deleteCompressedImage($model->mobile_image_url);
+            }
+        } catch (\Exception $e) {
+            // Log error but don't prevent deletion
+            error_log('Error deleting ad images: ' . $e->getMessage());
         }
     }
 

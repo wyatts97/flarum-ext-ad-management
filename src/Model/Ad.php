@@ -12,9 +12,7 @@ class Ad extends AbstractModel
 
     protected static function booted()
     {
-        static::deleting(function ($ad) {
-            $ad->clicks()->delete();
-        });
+        // No need for boot event as deletion is handled in the resource
     }
 
     protected $casts = [

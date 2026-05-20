@@ -466,7 +466,12 @@ export default class AdManagementPage extends ExtensionPage {
         app.request({
             method: 'DELETE',
             url: app.forum.attribute('apiUrl') + '/advertisements/' + ad.id,
-        }).then(() => this.loadData());
+        }).then(() => {
+            this.loadData();
+        }).catch((error) => {
+            console.error('Error deleting ad:', error);
+            alert(app.translator.trans('wyatts97-ad-management.admin.ads.delete_error'));
+        });
     }
 
     zonesTab() {

@@ -132,6 +132,7 @@ wyatts97-ad-management:
       owner_help: "Username of the ad owner. Leave empty for no owner."
       empty: No advertisements found.
       confirm_delete: "Are you sure you want to delete this ad?"
+      delete_error: "An error occurred while deleting the ad. Please try again."
       status: Status
       pending_badge: "Pending ({count})"
       approve: Approve

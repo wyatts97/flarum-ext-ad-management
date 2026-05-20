@@ -449,7 +449,14 @@ class AdResource extends AbstractDatabaseResource
 
     public function deleting(object $model, Context $context): void
     {
-        $model->clicks()->delete();
+        try {
+            if (method_exists($model, 'clicks')) {
+                $model->clicks()->delete();
+            }
+        } catch (\Exception $e) {
+            // Log the error but don't prevent the deletion
+            error_log('Error deleting ad clicks: ' . $e->getMessage());
+        }
     }
 
     public function updating(object $model, Context $context): ?object

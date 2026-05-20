@@ -10,10 +10,7 @@ class Ad extends AbstractModel
 {
     protected $table = 'advertisements';
 
-    protected static function booted()
-    {
-        // No need for boot event as deletion is handled in the resource
-    }
+    // No boot event needed - let the database handle relationships
 
     protected $casts = [
         'is_active' => 'boolean',

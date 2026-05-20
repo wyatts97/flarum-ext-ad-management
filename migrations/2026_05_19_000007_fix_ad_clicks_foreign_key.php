@@ -5,14 +5,18 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        // First, drop the existing foreign key constraint
+        // Drop the foreign key constraint if it exists
         $schema->table('ad_clicks', function (Blueprint $table) {
-            $table->dropForeign(['ad_id']);
+            try {
+                $table->dropForeign(['ad_id']);
+            } catch (\Exception $e) {
+                // Ignore if the foreign key doesn't exist
+            }
         });
         
-        // Then add the new foreign key constraint with set null
+        // Add the new foreign key constraint with cascade deletion
         $schema->table('ad_clicks', function (Blueprint $table) {
-            $table->foreign('ad_id')->references('id')->on('advertisements')->onDelete('set null');
+            $table->foreign('ad_id')->references('id')->on('advertisements')->onDelete('cascade');
         });
     },
 

@@ -68,7 +68,7 @@ return [
             $table->string('ip_address', 45)->nullable();
             $table->timestamp('created_at')->nullable();
 
-            $table->foreign('ad_id')->references('id')->on('advertisements')->onDelete('set null');
+            $table->foreign('ad_id')->references('id')->on('advertisements')->onDelete('cascade');
             $table->index('ad_id');
             $table->index('created_at');
         });

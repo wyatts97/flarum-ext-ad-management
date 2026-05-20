@@ -449,8 +449,7 @@ class AdResource extends AbstractDatabaseResource
 
     public function deleting(object $model, Context $context): void
     {
-        // No need to manually delete clicks as the foreign key is now set to set null
-        // This will automatically set ad_id to null for all related clicks
+        // Let the database handle cascading deletes through foreign key constraints
     }
 
     public function updating(object $model, Context $context): ?object

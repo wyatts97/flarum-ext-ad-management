@@ -449,7 +449,13 @@ class AdResource extends AbstractDatabaseResource
 
     public function deleting(object $model, Context $context): void
     {
-        // Let the database handle cascading deletes through foreign key constraints
+        // Simple manual deletion of clicks without foreign key constraints
+        try {
+            \wyatts97\AdManagement\Model\AdClick::where('ad_id', $model->id)->delete();
+        } catch (\Exception $e) {
+            // Log error but don't prevent deletion
+            error_log('Error deleting ad clicks: ' . $e->getMessage());
+        }
     }
 
     public function updating(object $model, Context $context): ?object

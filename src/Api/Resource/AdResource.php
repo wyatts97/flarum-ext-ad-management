@@ -89,7 +89,7 @@ class AdResource extends AbstractDatabaseResource
                 ->defaultInclude(['zone', 'owner']),
             Endpoint\Delete::make()
                 ->authenticated()
-                ->visible(function (Context $context) {
+                ->visible(function (Ad $ad, Context $context) {
                     return $context->getActor()->isAdmin();
                 }),
             Endpoint\Endpoint::make('active')
@@ -449,37 +449,16 @@ class AdResource extends AbstractDatabaseResource
 
     public function deleting(object $model, Context $context): void
     {
-        // Delete associated click records
+        // Simplified deletion - just log for now
+        error_log("Deleting ad {$model->id}");
+        
+        // Try to delete click records
         try {
             $deleted = \wyatts97\AdManagement\Model\AdClick::where('ad_id', $model->id)->delete();
             error_log("Deleted {$deleted} click records for ad {$model->id}");
         } catch (\Exception $e) {
-            // Log error but don't prevent deletion
             error_log('Error deleting ad clicks: ' . $e->getMessage());
-            error_log('Stack trace: ' . $e->getTraceAsString());
         }
-
-        // Clean up compressed images (commented out temporarily to isolate the issue)
-        /*
-        try {
-            if ($model->image_url) {
-                $this->imageService->deleteCompressedImage($model->image_url);
-                error_log("Deleted image_url for ad {$model->id}");
-            }
-            if ($model->pending_image_url) {
-                $this->imageService->deleteCompressedImage($model->pending_image_url);
-                error_log("Deleted pending_image_url for ad {$model->id}");
-            }
-            if ($model->mobile_image_url) {
-                $this->imageService->deleteCompressedImage($model->mobile_image_url);
-                error_log("Deleted mobile_image_url for ad {$model->id}");
-            }
-        } catch (\Exception $e) {
-            // Log error but don't prevent deletion
-            error_log('Error deleting ad images: ' . $e->getMessage());
-            error_log('Stack trace: ' . $e->getTraceAsString());
-        }
-        */
     }
 
     public function updating(object $model, Context $context): ?object

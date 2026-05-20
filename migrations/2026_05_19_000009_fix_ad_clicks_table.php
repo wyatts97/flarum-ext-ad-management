@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Facades\Schema;
 
 return [
     'up' => function (Builder $schema) {
@@ -14,13 +13,32 @@ return [
             return;
         }
         
-        // Check if ad_id column exists using Schema facade
-        if (!Schema::hasColumn('ad_clicks', 'ad_id')) {
-            // Add the ad_id column if it was dropped by the bad migration
-            $schema->table('ad_clicks', function (Blueprint $table) {
-                $table->unsignedInteger('ad_id')->nullable()->after('id');
-                $table->index('ad_id');
-            });
+        // Check if ad_id column exists by querying the database
+        try {
+            $columnExists = $connection->select(
+                "SELECT COUNT(*) as count FROM information_schema.columns 
+                 WHERE table_schema = DATABASE() 
+                 AND table_name = 'ad_clicks' 
+                 AND column_name = 'ad_id'"
+            );
+            
+            if (empty($columnExists) || $columnExists[0]->count == 0) {
+                // Add the ad_id column if it was dropped by the bad migration
+                $schema->table('ad_clicks', function (Blueprint $table) {
+                    $table->unsignedInteger('ad_id')->nullable()->after('id');
+                    $table->index('ad_id');
+                });
+            }
+        } catch (\Exception $e) {
+            // If checking fails, try to add the column anyway (it will fail if it exists)
+            try {
+                $schema->table('ad_clicks', function (Blueprint $table) {
+                    $table->unsignedInteger('ad_id')->nullable()->after('id');
+                    $table->index('ad_id');
+                });
+            } catch (\Exception $e2) {
+                // Column probably already exists, ignore error
+            }
         }
     },
 

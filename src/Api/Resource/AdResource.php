@@ -50,9 +50,6 @@ class AdResource extends AbstractDatabaseResource
             $query->where('user_id', $actor->id);
         }
 
-        // Apply Index-only filters and default ordering. Flarum disables
-        // the json-api-server filters() method on database resources, so we
-        // implement filtering here instead of via a query() callback.
         if ($context instanceof Context && $context->listing()) {
             $filters = $context->request->getQueryParams()['filter'] ?? [];
 
@@ -121,8 +118,6 @@ class AdResource extends AbstractDatabaseResource
                     $included = [];
                     $seenZoneIds = [];
 
-                    // Always include all active zones so the client has mapping
-                    // even for empty zones or ads with broken zone relations.
                     $allZones = AdZone::where('is_active', true)->get();
                     foreach ($allZones as $zone) {
                         $seenZoneIds[(string) $zone->id] = true;
@@ -238,8 +233,6 @@ class AdResource extends AbstractDatabaseResource
             Schema\Str::make('imageUrl')
                 ->nullable()
                 ->writable(),
-            // Virtual write-only action attribute used by admins to approve or
-            // reject the pending image change on an ad. Not persisted.
             Schema\Str::make('pendingImageAction')
                 ->writableOnUpdate()
                 ->visible(fn () => false)
@@ -399,10 +392,6 @@ class AdResource extends AbstractDatabaseResource
             $model->status = $model->is_active ? 'active' : 'inactive';
         }
 
-        if (empty($model->zone_id)) {
-            throw new ValidationException(['zoneId' => 'A zone is required.']);
-        }
-
         return $model;
     }
 
@@ -411,10 +400,6 @@ class AdResource extends AbstractDatabaseResource
         $actor = $context->getActor();
         $isAdmin = $actor->isAdmin();
 
-        // Handle image URL changes with processing. By the time saving() runs,
-        // the framework has already set $model->image_url from the request via
-        // Schema\Str::make('imageUrl')'s default setter, so we detect the
-        // change with isDirty() and getOriginal().
         if ($model->isDirty('image_url')) {
             $newImageUrl = $model->image_url;
             $originalImageUrl = $model->getOriginal('image_url');
@@ -429,8 +414,6 @@ class AdResource extends AbstractDatabaseResource
                 );
 
                 if (!$isAdmin && (bool) $this->settings->get('wyatts97-ad-management.require_image_approval', false)) {
-                    // Queue for approval: revert image_url and stash the
-                    // processed URL in pending_image_url.
                     $model->image_url = $originalImageUrl;
                     if ($model->pending_image_url) {
                         $this->imageService->deleteCompressedImage($model->pending_image_url);
@@ -438,7 +421,6 @@ class AdResource extends AbstractDatabaseResource
                     $model->pending_image_url = $processedUrl;
                     $model->image_changes_count++;
                 } else {
-                    // Apply immediately.
                     if ($originalImageUrl) {
                         $this->imageService->deleteCompressedImage($originalImageUrl);
                     }
@@ -448,7 +430,6 @@ class AdResource extends AbstractDatabaseResource
             }
         }
 
-        // Validate link URL when it has been changed.
         if ($model->isDirty('link_url')) {
             $this->validateLinkUrl($model->link_url);
         }
@@ -466,21 +447,22 @@ class AdResource extends AbstractDatabaseResource
         return $model;
     }
 
+    public function deleting(object $model, Context $context): void
+    {
+        $model->clicks()->delete();
+    }
+
     public function updating(object $model, Context $context): ?object
     {
         $actor = $context->getActor();
         $isAdmin = $actor->isAdmin();
 
-        // Non-admins can only edit their own ads
         if (!$isAdmin && (int) $model->user_id !== (int) $actor->id) {
             throw new ValidationException([
                 'ad' => 'You do not have permission to edit this ad.',
             ]);
         }
 
-        // Check image change limit for non-admins. By this point the new
-        // image_url has already been set by the framework, so we detect the
-        // change with isDirty().
         if (!$isAdmin && $model->isDirty('image_url')) {
             if ($model->max_image_changes !== null && $model->image_changes_count >= $model->max_image_changes) {
                 throw new ValidationException([
@@ -490,23 +472,6 @@ class AdResource extends AbstractDatabaseResource
         }
 
         return $model;
-    }
-
-    public function deleting(object $model, Context $context): void
-    {
-        // Clean up related click records
-        $model->clicks()->delete();
-
-        // Clean up stored image files
-        if ($model->image_url) {
-            $this->imageService->deleteCompressedImage($model->image_url);
-        }
-        if ($model->pending_image_url) {
-            $this->imageService->deleteCompressedImage($model->pending_image_url);
-        }
-        if ($model->mobile_image_url) {
-            $this->imageService->deleteCompressedImage($model->mobile_image_url);
-        }
     }
 
     private function validateLinkUrl(?string $url): void

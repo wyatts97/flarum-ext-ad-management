@@ -121,6 +121,26 @@ class AdResource extends AbstractDatabaseResource
                     $included = [];
                     $seenZoneIds = [];
 
+                    // Always include all active zones so the client has mapping
+                    // even for empty zones or ads with broken zone relations.
+                    $allZones = AdZone::where('is_active', true)->get();
+                    foreach ($allZones as $zone) {
+                        $seenZoneIds[(string) $zone->id] = true;
+                        $included[] = [
+                            'type' => 'ad-zones',
+                            'id' => (string) $zone->id,
+                            'attributes' => [
+                                'name' => $zone->name,
+                                'position' => $zone->position,
+                                'displayMode' => $zone->display_mode,
+                                'isDefault' => (bool) $zone->is_default,
+                                'isActive' => (bool) $zone->is_active,
+                                'label' => $zone->label,
+                                'sortOrder' => (int) $zone->sort_order,
+                            ],
+                        ];
+                    }
+
                     foreach ($ads as $ad) {
                         $item = [
                             'type' => 'advertisements',
@@ -156,42 +176,22 @@ class AdResource extends AbstractDatabaseResource
                             ],
                         ];
 
-                        if ($ad->zone) {
+                        $zone = $ad->zone ?: ($ad->zone_id ? AdZone::find($ad->zone_id) : null);
+                        if ($zone) {
                             $item['relationships'] = [
                                 'zone' => [
                                     'data' => [
                                         'type' => 'ad-zones',
-                                        'id' => (string) $ad->zone->id,
+                                        'id' => (string) $zone->id,
                                     ],
                                 ],
                             ];
-
-                            if (!isset($seenZoneIds[(string) $ad->zone->id])) {
-                                $seenZoneIds[(string) $ad->zone->id] = true;
-                                $included[] = [
-                                    'type' => 'ad-zones',
-                                    'id' => (string) $ad->zone->id,
-                                    'attributes' => [
-                                        'name' => $ad->zone->name,
-                                        'position' => $ad->zone->position,
-                                        'displayMode' => $ad->zone->display_mode,
-                                        'isDefault' => (bool) $ad->zone->is_default,
-                                        'isActive' => (bool) $ad->zone->is_active,
-                                        'label' => $ad->zone->label,
-                                        'sortOrder' => (int) $ad->zone->sort_order,
-                                    ],
-                                ];
-                            }
                         }
 
                         $primary[] = $item;
                     }
 
-                    $document = ['data' => $primary];
-
-                    if (count($included)) {
-                        $document['included'] = $included;
-                    }
+                    $document = ['data' => $primary, 'included' => $included];
 
                     return json_api_response($document);
                 }),
@@ -397,6 +397,10 @@ class AdResource extends AbstractDatabaseResource
         } else {
             $model->user_id = $model->user_id ?? $actor->id;
             $model->status = $model->is_active ? 'active' : 'inactive';
+        }
+
+        if (empty($model->zone_id)) {
+            throw new ValidationException(['zoneId' => 'A zone is required.']);
         }
 
         return $model;
